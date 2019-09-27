@@ -50,11 +50,19 @@ export default {
     };
   },
   methods: {
-    handleSelect(key, keyPath) {
+    handleSelect(key) {
       if(key == 1){
         this.$router.push('/teacher/MyMajor')
+      }else if(key == 2){
+        this.$router.push('/teacher/MyClass')
       }else if(key == 3) {
         this.$router.push('/teacher/MyExam')
+      }else if(key == 4) {
+        this.$router.push('/teacher/StuManger')
+      }else if(key == 5) {
+        this.$router.push('/teacher/ClassManger')
+      }else {
+        this.$router.push('/teacher/MyGood')
       }
     }
   }

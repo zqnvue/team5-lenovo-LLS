@@ -1,11 +1,11 @@
 <template>
     <div id="">
-        我教考试myexam
+        我是学生，我的考试
     </div>
 </template>
 <script>
 export default {
-    name:'MyExam',
+    name:'MyTest',
     data(){
         return{ //当前组件用到的数据
 

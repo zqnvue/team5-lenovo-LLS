@@ -40,14 +40,24 @@ export default {
   name: "stuMenus",
   data() {
     return {
-      activeIndex: "1"
+      activeIndex: "2"
     };
   },
   methods: {
-    handleSelect(key, keyPath) {
-      console.log(key, keyPath);
+    handleSelect(key) {
+            if(key == 1){
+                this.$router.push('/student/StuMajor')
+            }else if(key == 2){
+                this.$router.push('/student/StuClass')
+            }else if(key == 3) {
+                this.$router.push('/student/MyGrow')
+            }else if(key == 4) {
+                this.$router.push('/student/MyJoin')
+            }else {
+                this.$router.push('/student/MyTest')
+            }
+        }
     }
-  }
 };
 </script>
 <style lang="">
