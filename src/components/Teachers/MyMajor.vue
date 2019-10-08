@@ -1,5 +1,5 @@
 <template>
-  <div id="main">
+  <div id="">
     <div id="navbg">
       <div id="navbg-img">
         <div id="h-name">大前端001</div>
@@ -10,21 +10,18 @@
         </ul>
       </div>
     </div>
-    <div class="wenben">
+    <div id="c-title">
       <p>专业介绍</p>
       <p>专业章节</p>
     </div>
-    <div class="class">
+    <div id="c-main">
       <el-collapse v-model="activeNames" @change="handleChange">
-        <el-collapse-item title="第一学期" name="1">
-          <div>前端001</div>
-          <div>前端导论</div>
-        </el-collapse-item>
-        <el-collapse-item title="第二学期" name="2">
-          <div>前端002</div>
-        </el-collapse-item>
-        <el-collapse-item title="第三学期" name="3">
-          <div>php基础</div>
+        <!-- 下面是遍历学期的标题 -->
+        <el-collapse-item id="item-head" v-for="(item,index) in arr" :key="index" :title="item.name" :name="index">
+          <!-- 下面是遍历学期中的课程名 -->
+          <div v-for="(items,index) in item.childList" :key="index">
+            <a href="" @click.prevent="toMyClassList(items.id,items.name)">{{items.name}}</a>
+          </div>
         </el-collapse-item>
       </el-collapse>
     </div>
@@ -36,7 +33,8 @@ export default {
   data() {
     return {
       //当前组件用到的数据
-      activeNames: ["1"]
+      activeNames: ['1'],
+      arr:[],
     };
   },
   methods: {
@@ -50,35 +48,24 @@ export default {
         }
       })
     }
-
-
-
   },
   created() {
     //组件加载完之后的生命周期函数，如果页面一加载就需要展示数据，那么数据在这获取
     var app = this;
-    this.$http
-      .get("/product/majorCustom/getMajorCustomForCurrentUser")
-      .then(function(res) {
-        console.log(res);
-      });
+    this.$http.get('/product/userMajorCustom/getTeacherMajorCustomAdapterList').then(function(res){
+        app.arr = res.data[0].majorCustomItemTreeAdapterList;
+    })
   }
 };
 </script>
 <style lang="">
-.wenben p {
-  border-left: 4px solid #4ac0e0;
-  font-family: 微软雅黑;
-  margin-left: 120px;
-  font-size: 16px;
-}
 #navbg {
   height: 144px;
   background: #89db96;
 }
 #navbg-img {
   height: 144px;
-  background: url(../../images/download.png) no-repeat 940px -20px;
+  background: url(../../images/download.png) no-repeat 720px -20px;
   position: relative;
 }
 #h-name {
@@ -105,5 +92,10 @@ export default {
   margin: 15px 0 12px 125px;
   position: relative;
   border-left: 4px solid#49c0e0;
+}
+#el-collapse-head-4090 {
+  background: #49c0e0;
+  color: #fff;
+  font-size: 18px;
 }
 </style>
