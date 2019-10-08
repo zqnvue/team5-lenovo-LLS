@@ -41,6 +41,10 @@ export default {
   methods: {},
   created() {
     //组件加载完之后的生命周期函数，如果页面一加载就需要展示数据，那么数据在这获取
+    var app = this;
+    this.$http.get('/product/majorCustom/getMajorCustomForCurrentUser').then(function(res){
+      app.arr
+    })
   }
 };
 </script>
