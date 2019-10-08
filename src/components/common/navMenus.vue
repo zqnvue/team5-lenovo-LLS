@@ -8,17 +8,18 @@
       </el-col>
       <el-col :span="14">
         <div class="grid-content bg-purple">
-          <el-menu
-            :default-active="activeIndex"
-            class="el-menu-demo"
-            mode="horizontal"
-            @select="handleSelect"
-          >
+          <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="handleSelect">
             <el-menu-item index="1">我教的专业</el-menu-item>
             <el-submenu index="2">
               <template slot="title">我教的课程</template>
-              <el-menu-item index="2-1">哈哈哈哈</el-menu-item>
-              <el-menu-item index="2-2">哈哈哈哈</el-menu-item>
+              <el-submenu :index="'2-'+xiabiao" v-for="(item,xiabiao) in arr" :key="xiabiao">
+                <template slot="title">{{item.name}}</template>
+                <el-menu-item index="2-1-1" v-for="(items,index) in item.childList" :key="index">
+                  <a href="#">{{items.name}}</a>
+                </el-menu-item>
+                
+              </el-submenu>
+              <!-- <el-menu-item index="2-2">选项2</el-menu-item> -->
             </el-submenu>
             <el-menu-item index="3">考试管理</el-menu-item>
             <el-menu-item index="4">学员管理</el-menu-item>
@@ -46,7 +47,8 @@ export default {
   name: "navMenus",
   data() {
     return {
-      activeIndex: "1"
+      activeIndex: "1",
+      arr:[]
     };
   },
   methods: {
@@ -65,6 +67,14 @@ export default {
         this.$router.push('/teacher/MyGood')
       }
     }
+  },
+  created(){
+     //组件加载完之后的生命周期函数，如果页面一加载就需要展示数据，那么数据在这获取
+    var app = this;
+    this.$http.get('/product/userMajorCustom/getTeacherMajorCustomAdapterList').then(function(res){
+        app.arr = res.data[0].majorCustomItemTreeAdapterList;
+        console.log(app.arr);
+    })
   }
 };
 </script>

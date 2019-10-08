@@ -1,6 +1,8 @@
 <template>
     <div id="">
-        我是学生，我的课程
+        <div id="navbg">
+            
+        </div>
     </div>
 </template>
 <script>
@@ -19,3 +21,9 @@ export default {
     }
 }
 </script>
+<style>
+#navbg {
+  height: 144px;
+  background: #e0a1e2;
+}
+</style>
