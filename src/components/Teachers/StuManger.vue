@@ -1,6 +1,6 @@
 <template>
     <div id="">
-        学员管理StuManger
+        这里是学员管理StuManger
     </div>
 </template>
 <script>
