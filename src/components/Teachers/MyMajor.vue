@@ -1,5 +1,9 @@
 <template>
+<<<<<<< HEAD
   <div id="main">
+=======
+  <div id="">
+>>>>>>> sn
     <div id="navbg">
       <div id="navbg-img">
         <div id="h-name">大前端001</div>
@@ -10,6 +14,7 @@
         </ul>
       </div>
     </div>
+<<<<<<< HEAD
     <div class="wenben">
       <p>专业介绍</p>
       <p>专业章节</p>
@@ -25,6 +30,20 @@
         </el-collapse-item>
         <el-collapse-item title="第三学期" name="3">
           <div>php基础</div>
+=======
+    <div id="c-title">
+      <p>专业介绍</p>
+      <p>专业章节</p>
+    </div>
+    <div id="c-main">
+      <el-collapse v-model="activeNames" @change="handleChange">
+        <!-- 下面是遍历学期的标题 -->
+        <el-collapse-item id="item-head" v-for="(item,index) in arr" :key="index" :title="item.name" :name="index">
+          <!-- 下面是遍历学期中的课程名 -->
+          <div v-for="(items,index) in item.childList" :key="index">
+            {{items.name}}
+          </div>
+>>>>>>> sn
         </el-collapse-item>
       </el-collapse>
     </div>
@@ -36,11 +55,17 @@ export default {
   data() {
     return {
       //当前组件用到的数据
+<<<<<<< HEAD
       activeNames: ["1"]
+=======
+      activeNames: ['1'],
+      arr:[],
+>>>>>>> sn
     };
   },
   methods: {
     //当前组件用到的函数
+<<<<<<< HEAD
     toMyClassList(itemId,name){
       this.$router.push({
         name: 'MyClass',
@@ -53,32 +78,50 @@ export default {
 
 
 
+=======
+    handleChange(val) {
+      console.log('2222')
+    }
+>>>>>>> sn
   },
   created() {
     //组件加载完之后的生命周期函数，如果页面一加载就需要展示数据，那么数据在这获取
     var app = this;
+<<<<<<< HEAD
     this.$http
       .get("/product/majorCustom/getMajorCustomForCurrentUser")
       .then(function(res) {
         console.log(res);
       });
+=======
+    this.$http.get('/product/userMajorCustom/getTeacherMajorCustomAdapterList').then(function(res){
+        app.arr = res.data[0].majorCustomItemTreeAdapterList;
+    })
+>>>>>>> sn
   }
 };
 </script>
 <style lang="">
+<<<<<<< HEAD
 .wenben p {
   border-left: 4px solid #4ac0e0;
   font-family: 微软雅黑;
   margin-left: 120px;
   font-size: 16px;
 }
+=======
+>>>>>>> sn
 #navbg {
   height: 144px;
   background: #89db96;
 }
 #navbg-img {
   height: 144px;
+<<<<<<< HEAD
   background: url(../../images/download.png) no-repeat 940px -20px;
+=======
+  background: url(../../images/download.png) no-repeat 720px -20px;
+>>>>>>> sn
   position: relative;
 }
 #h-name {
@@ -105,5 +148,13 @@ export default {
   margin: 15px 0 12px 125px;
   position: relative;
   border-left: 4px solid#49c0e0;
+<<<<<<< HEAD
+=======
+}
+#el-collapse-head-4090 {
+  background: #49c0e0;
+  color: #fff;
+  font-size: 18px;
+>>>>>>> sn
 }
 </style>
