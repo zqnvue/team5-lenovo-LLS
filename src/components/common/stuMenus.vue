@@ -12,8 +12,13 @@
             <el-menu-item index="1">我的专业</el-menu-item>
             <el-submenu index="2">
               <template slot="title">我的课程</template>
-              <el-menu-item index="2-1">选项1</el-menu-item>
-              <el-menu-item index="2-2">选项2</el-menu-item>
+              <el-submenu :index="'2-'+xiabiao" v-for="(item,xiabiao) in arr" :key="xiabiao">
+                <template slot="title">{{item.name}}</template>
+                <el-menu-item index="2-1-1" v-for="(items,index) in item.childList" :key="index">
+                  <a href="#">{{items.name}}</a>
+                </el-menu-item>
+                
+              </el-submenu>
             </el-submenu>
             <el-menu-item index="3">我的成长</el-menu-item>
             <el-menu-item index="4">我的参与</el-menu-item>
@@ -40,7 +45,8 @@ export default {
   name: "stuMenus",
   data() {
     return {
-      activeIndex: "2"
+      activeIndex: "2",
+      arr:[]
     };
   },
   methods: {
@@ -57,7 +63,14 @@ export default {
                 this.$router.push('/student/MyTest')
             }
         }
-    }
+    },
+    created(){
+     //组件加载完之后的生命周期函数，如果页面一加载就需要展示数据，那么数据在这获取
+    var app = this;
+    this.$http.get('/product/majorCustom/getMajorCustomForCurrentUser').then(function(res){
+        app.arr = res.data[0].majorCustomItemTreeAdapterList;
+    })
+  }
 };
 </script>
 <style lang="">

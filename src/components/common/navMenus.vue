@@ -17,9 +17,7 @@
                 <el-menu-item index="2-1-1" v-for="(items,index) in item.childList" :key="index">
                   <a href="#">{{items.name}}</a>
                 </el-menu-item>
-                
               </el-submenu>
-              <!-- <el-menu-item index="2-2">选项2</el-menu-item> -->
             </el-submenu>
             <el-menu-item index="3">考试管理</el-menu-item>
             <el-menu-item index="4">学员管理</el-menu-item>
