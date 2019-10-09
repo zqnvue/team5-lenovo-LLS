@@ -16,11 +16,11 @@
     </div>
     <div id="c-main">
       <el-collapse v-model="activeNames" @change="handleChange">
-        <!-- 下面是遍历学期的标题 :key唯一索引的标识-->
+        <!-- 下面是遍历学期的标题 -->
         <el-collapse-item id="item-head" v-for="(item,index) in arr" :key="index" :title="item.name" :name="index">
           <!-- 下面是遍历学期中的课程名 -->
           <div v-for="(items,index) in item.childList" :key="index">
-            {{items.name}}
+            <a href="" @click.prevent="toMyClassList(items.id,items.name)">{{items.name}}</a>
           </div>
         </el-collapse-item>
       </el-collapse>
@@ -34,21 +34,25 @@ export default {
     return {
       //当前组件用到的数据
       activeNames: ['1'],
-      //  数组为空，动态接受
       arr:[],
     };
   },
   methods: {
     //当前组件用到的函数
-    handleChange(val) {
-
-      }
+    toMyClassList(itemId,name){
+      this.$router.push({
+        name: 'MyClass',
+        params: {
+          id :itemId,
+          name : name
+        }
+      })
+    }
   },
   created() {
     //组件加载完之后的生命周期函数，如果页面一加载就需要展示数据，那么数据在这获取
     var app = this;
     this.$http.get('/product/userMajorCustom/getTeacherMajorCustomAdapterList').then(function(res){
-        // 把获取到的数据 放到arr中
         app.arr = res.data[0].majorCustomItemTreeAdapterList;
     })
   }
