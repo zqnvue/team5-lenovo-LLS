@@ -20,7 +20,7 @@
         <el-collapse-item id="item-head" v-for="(item,index) in arr" :key="index" :title="item.name" :name="index">
           <!-- 下面是遍历学期中的课程名 -->
           <div v-for="(items,index) in item.childList" :key="index">
-            {{items.name}}
+            <a href="" @click.prevent="toMyClassList(items.id,items.name)">{{items.name}}</a>
           </div>
         </el-collapse-item>
       </el-collapse>
@@ -40,9 +40,15 @@ export default {
   },
   methods: {
     //当前组件用到的函数
-    handleChange(val) {
-
-      }
+    toMyClassList(itemId,name){
+      this.$router.push({
+        name: 'MyClass',
+        params: {
+          id :itemId,
+          name : name
+        }
+      })
+    }
   },
   created() {
     //组件加载完之后的生命周期函数，如果页面一加载就需要展示数据，那么数据在这获取
