@@ -16,17 +16,18 @@
       <p id="c-title-two">下载课程表</p>
     </div>
 
-    <div id="c-body">
-        <ul>
-            <li>
-                <div id="c-body-xueq">第一学期（已修完）</div>
-                <a href="#">WEB前端基础</a>
-                <a href="#">xxxxx</a>
-                <a href="#">xxxxx</a>
-            </li>
-        </ul>
+    <!-- arr学期名  item.childList每个学期的课程名 -->
+    <div id="c-body" v-for="(item,index) in arr" :key="index" :title="item.name" :name="index">
+      <el-card class="box-card" >
+        <div slot="header" class="clearfix">
+          <!-- item表示arr数组里的每一项 第xxx学期-->
+          <span>{{item.name}}</span>
+        </div>
+        <!-- items表示item.childList数组中的每一项 xxx课程-->
+        <div v-for="(items,index) in item.childList" :key="index">{{items.name}}</div>
+      </el-card>
     </div>
-
+    
   </div>
 </template>
 <script>
@@ -35,12 +36,20 @@ export default {
   data() {
     return {
       //当前组件用到的数据
-      activeIndex: "1"
+      activeIndex: "1",
+      arr: []
     };
   },
   methods: {},
   created() {
     //组件加载完之后的生命周期函数，如果页面一加载就需要展示数据，那么数据在这获取
+    var app = this;
+    this.$http
+      .get("/product/majorCustom/getMajorCustomForCurrentUser")
+      .then(function(res) {
+        app.arr = res.data[0].majorCustomItemTreeAdapterList;
+        console.log(res);
+      });
   }
 };
 </script>
@@ -71,8 +80,8 @@ export default {
 }
 /* 头部结束 */
 #c-title {
-    margin-left: 265px;
-    /* height: 22px; */
+  margin-left: 265px;
+  /* height: 22px; */
 }
 #c-title-one {
   min-width: 100px;
@@ -94,56 +103,41 @@ export default {
 }
 /* 中间结束 */
 #c-body{
-    width: 870px;
+    /* width: 870px; */
     /* height: 800px; */
     margin-left: 355px;
-    background: #ccc;
+    /* background: #ccc; */
     margin-top: 70px;
     position: relative;
 }
-#c-body li{
-    width: 200px;
-    height: 269px;
-    font-size: 15px;
-    text-indent: 6px;
+.text {
+    font-size: 14px;
+  }
+
+  .item {
+    margin-bottom: 18px;
+  }
+
+  .clearfix {
+      
+      color: white
+  }
+  .clearfix:before,
+  .clearfix:after {
+    display: table;
+    content: "";
+  }
+  .clearfix:after {
+    clear: both
+  }
+  .el-card__header{
+      background: rgb(205,107,1);
+  }
+  .box-card {
+    width: 187px;
+    height:280px;
+  }
+  .el-card{
     float: left;
-    margin-right: 1px;
-    background: #fff;
-    box-sizing: border-box;
-    /* position: relative; */
-    /* text-align: center; */
-}
-#c-body-xueq{
-    width: 100%;
-    height: 40px;
-    line-height: 40px;
-    font-size: 17px;
-    text-align: center;
-    float: left;
-    margin-right: 1px;
-    background: #f1f1f1;
-    color: #606060;
-    margin-bottom: 10px;
-    /* padding-right: 28px; */
-    background: rgb(255, 107, 1);
-    color: rgb(255, 255, 255);
-}
-#c-body li a{
-    display: block;
-    float: left;
-    font-size: 17px;
-    /* min-width: 106px; */
-    line-height: 34px;
-    color: #515151;
-    width: 100%;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    position: relative;
-    padding-left: 13px;
-    /* text-align: center;     */
-}
-#c-body li a:hover{
-    color: #49c0e0;
-}
+  }
 </style>
