@@ -16,13 +16,6 @@
       <p id="c-title-two">下载课程表</p>
     </div>
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-    <!-- arr学期名  item.childList每个学期的课程名 -->
->>>>>>> sn
     <div id="c-body" v-for="(item,index) in arr" :key="index" :title="item.name" :name="index">
       <el-card class="box-card" >
         <div slot="header" class="clearfix">
@@ -32,15 +25,6 @@
         <!-- items表示item.childList数组中的每一项 xxx课程-->
         <div v-for="(items,index) in item.childList" :key="index">{{items.name}}</div>
       </el-card>
-<<<<<<< HEAD
-      <!-- <div v-for="(item,index) in arr" :key="index" :title="item.name" :name="index">
-            {{item.name}}
-            <div v-for="(items,index) in item.childList" :key="index">
-                {{items.name}}
-            </div>
-      </div>-->
-    </div>
-=======
     <!-- arr学期名  item.childList每个学期的课程名 -->
     <div id="c-body" v-for="(item,index) in arr" :key="index" :title="item.name" :name="index">
       <el-card class="box-card" >
@@ -52,9 +36,6 @@
         <div v-for="(items,index) in item.childList" :key="index">{{items.name}}</div>
       </el-card>
     </div>
-    
->>>>>>> 12989a8ea03a3cdb977150a42d3d5bad7338007e
-=======
     <!-- arr学期名  item.childList每个学期的课程名 -->
     <div id="c-body" v-for="(item,index) in arr" :key="index" :title="item.name" :name="index">
       <el-card class="box-card" >
@@ -66,9 +47,6 @@
         <div v-for="(items,index) in item.childList" :key="index">{{items.name}}</div>
       </el-card>
     </div>
-    
->>>>>>> 12989a8ea03a3cdb977150a42d3d5bad7338007e
-=======
     <!-- arr学期名  item.childList每个学期的课程名 -->
     <div id="c-body" v-for="(item,index) in arr" :key="index" :title="item.name" :name="index">
       <el-card class="box-card" >
@@ -80,12 +58,7 @@
         <div v-for="(items,index) in item.childList" :key="index">{{items.name}}</div>
       </el-card>
     </div>
-    
->>>>>>> zm
-=======
     </div>
-    
->>>>>>> sn
   </div>
 </template>
 <script>
@@ -187,18 +160,9 @@ export default {
   .clearfix:after {
     clear: both
   }
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
   .el-card{
     float: left
   }
-=======
->>>>>>> 12989a8ea03a3cdb977150a42d3d5bad7338007e
-=======
->>>>>>> 12989a8ea03a3cdb977150a42d3d5bad7338007e
-=======
->>>>>>> zm
   .el-card__header{
       background: rgb(205,107,1);
   }
@@ -206,22 +170,13 @@ export default {
     width: 187px;
     height:280px;
   }
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
   .el-card{
     float: left;
   }
->>>>>>> 12989a8ea03a3cdb977150a42d3d5bad7338007e
-=======
   .el-card{
     float: left;
   }
->>>>>>> 12989a8ea03a3cdb977150a42d3d5bad7338007e
-=======
   .el-card{
     float: left;
   }
->>>>>>> zm
 </style>

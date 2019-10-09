@@ -39,11 +39,6 @@ export default {
   },
   methods: {
     //当前组件用到的函数
-<<<<<<< HEAD
-=======
-    handleChange(val) {
-      // console.log('2222')
->>>>>>> sn
     toMyClassList(itemId,name){
       this.$router.push({
         name: 'MyClass',

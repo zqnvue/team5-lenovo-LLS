@@ -12,14 +12,15 @@
             <el-menu-item index="1">我的专业</el-menu-item>
             <el-submenu index="2">
               <template slot="title">我的课程</template>
+              <!-- (item,xiabiao) in arr 循环遍历arr中的每一项 xiabiao是唯一标识 -->
               <el-submenu :index="'2-'+xiabiao" v-for="(item,xiabiao) in arr" :key="xiabiao">
+                <!-- 第xxx学期 -->
                 <template slot="title">{{item.name}}</template>
                 <el-menu-item index="2-1-1" v-for="(items,index) in item.childList" :key="index">
-              <el-submenu :index="'2-'+xiabiao" v-for="(item,xiabiao) in arr" :key="xiabiao">
-                <template slot="title">{{item.name}}</template>
-                <el-menu-item index="2-1-1" v-for="(items,index) in item.childList" :key="index">
+                  <!-- 课程名 -->
                   <a href="#">{{items.name}}</a>
                 </el-menu-item>
+                
               </el-submenu>
             </el-submenu>
             <el-menu-item index="3">我的成长</el-menu-item>
@@ -48,6 +49,7 @@ export default {
   data() {
     return {
       activeIndex: "2",
+      // 用空数组，动态接收数据
       arr:[]
     };
   },
@@ -70,6 +72,7 @@ export default {
      //组件加载完之后的生命周期函数，如果页面一加载就需要展示数据，那么数据在这获取
     var app = this;
     this.$http.get('/product/majorCustom/getMajorCustomForCurrentUser').then(function(res){
+        // 把获取到的数据 放到arr中
         app.arr = res.data[0].majorCustomItemTreeAdapterList;
     })
   }
@@ -83,24 +86,30 @@ a {
 .el-row:last-child {
   margin-bottom: 0;
 }
+
 .el-col {
   border-radius: 4px;
   padding-left: 0 !important;
 }
+
 .bg-purple-dark {
   background: #99a9bf;
 }
+
 .bg-purple-light {
   background: #e5e9f2;
 }
+
 .grid-content {
   border-radius: 4px;
   min-height: 36px;
 }
+
 .grid-content img {
   height: 46px;
   display: block;
 }
+
 .row-bg {
   padding: 10px 0;
   background-color: #f9fafc;
