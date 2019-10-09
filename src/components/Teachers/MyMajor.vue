@@ -39,10 +39,8 @@ export default {
   },
   methods: {
     //当前组件用到的函数
-<<<<<<< HEAD
     handleChange(val) {
-      console.log('2222')
-=======
+      // console.log('2222')
     toMyClassList(itemId,name){
       this.$router.push({
         name: 'MyClass',
@@ -51,7 +49,6 @@ export default {
           name : name
         }
       })
->>>>>>> 20cc2ed7dff3676255cddabbece67c37d9a4e72c
     }
   },
   created() {
