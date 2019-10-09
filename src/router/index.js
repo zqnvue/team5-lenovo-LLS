@@ -39,7 +39,7 @@ const routes=[
         component:MyExam,
         name:'MyExam'
       },{
-        path:'MyClass',   //我教的课程
+        path:'MyClass/:id',   //我教的课程
         component:MyClass,
         name:'MyClass'
       },{

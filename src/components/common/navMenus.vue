@@ -13,13 +13,11 @@
             <el-submenu index="2">
               <template slot="title">我教的课程</template>
               <el-submenu :index="'2-'+xiabiao" v-for="(item,xiabiao) in arr" :key="xiabiao">
-                <template slot="title">{{item.name}}</template>
+                <template  slot="title">{{item.name}}</template>
                 <el-menu-item index="2-1-1" v-for="(items,index) in item.childList" :key="index">
-                  <a href="#">{{items.name}}</a>
+                  <a href="" @click.prevent="toMyClassList(items.id,items.name)">{{items.name}}</a>
                 </el-menu-item>
-                
               </el-submenu>
-              <!-- <el-menu-item index="2-2">选项2</el-menu-item> -->
             </el-submenu>
             <el-menu-item index="3">考试管理</el-menu-item>
             <el-menu-item index="4">学员管理</el-menu-item>
@@ -48,6 +46,7 @@ export default {
   data() {
     return {
       activeIndex: "1",
+      // 用空数组，动态接收数据
       arr:[]
     };
   },
@@ -63,17 +62,26 @@ export default {
         this.$router.push('/teacher/StuManger')
       }else if(key == 5) {
         this.$router.push('/teacher/ClassManger')
-      }else {
+      }else if(key == 6) {
         this.$router.push('/teacher/MyGood')
       }
+    },
+    toMyClassList(itemId,name){
+      this.$router.push({
+        name: 'MyClass',
+        params: {
+          id :itemId,
+          name : name
+        }
+      })
     }
   },
   created(){
      //组件加载完之后的生命周期函数，如果页面一加载就需要展示数据，那么数据在这获取
     var app = this;
     this.$http.get('/product/userMajorCustom/getTeacherMajorCustomAdapterList').then(function(res){
+        // 把获取到的数据 放到arr中
         app.arr = res.data[0].majorCustomItemTreeAdapterList;
-        console.log(app.arr);
     })
   }
 };
