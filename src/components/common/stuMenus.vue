@@ -15,9 +15,15 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+              <!-- (item,xiabiao) in arr 循环遍历arr中的每一项 xiabiao是唯一标识 -->
+>>>>>>> sn
               <el-submenu :index="'2-'+xiabiao" v-for="(item,xiabiao) in arr" :key="xiabiao">
+                <!-- 第xxx学期 -->
                 <template slot="title">{{item.name}}</template>
                 <el-menu-item index="2-1-1" v-for="(items,index) in item.childList" :key="index">
+<<<<<<< HEAD
 =======
 =======
 >>>>>>> 12989a8ea03a3cdb977150a42d3d5bad7338007e
@@ -36,6 +42,9 @@
 >>>>>>> 12989a8ea03a3cdb977150a42d3d5bad7338007e
 =======
 >>>>>>> zm
+=======
+                  <!-- 课程名 -->
+>>>>>>> sn
                   <a href="#">{{items.name}}</a>
                 </el-menu-item>
                 
@@ -70,6 +79,7 @@ export default {
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
       // 用空数组，动态接收数据
 >>>>>>> 12989a8ea03a3cdb977150a42d3d5bad7338007e
@@ -79,6 +89,9 @@ export default {
 =======
       // 用空数组，动态接收数据
 >>>>>>> zm
+=======
+      // 用空数组，动态接收数据
+>>>>>>> sn
       arr:[]
     };
   },
@@ -104,6 +117,7 @@ export default {
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
         // 把获取到的数据 放到arr中
 >>>>>>> 12989a8ea03a3cdb977150a42d3d5bad7338007e
@@ -113,6 +127,9 @@ export default {
 =======
         // 把获取到的数据 放到arr中
 >>>>>>> zm
+=======
+        // 把获取到的数据 放到arr中
+>>>>>>> sn
         app.arr = res.data[0].majorCustomItemTreeAdapterList;
     })
   }
