@@ -15,7 +15,7 @@
       <p>专业章节</p>
     </div>
     <div id="c-main">
-      <el-collapse v-model="activeNames" @change="handleChange">
+      <el-collapse v-model="activeNames">
         <!-- 下面是遍历学期的标题 -->
         <el-collapse-item id="item-head" v-for="(item,index) in arr" :key="index" :title="item.name" :name="index">
           <!-- 下面是遍历学期中的课程名 -->

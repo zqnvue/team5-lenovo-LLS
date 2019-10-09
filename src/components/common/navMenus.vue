@@ -66,6 +66,7 @@ export default {
       }
     },
     toMyClassList(itemId,name){
+      console.log('a')
       this.$router.push({
         name: 'MyClass',
         params: {

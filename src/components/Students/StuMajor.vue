@@ -45,7 +45,6 @@ export default {
       .get("/product/majorCustom/getMajorCustomForCurrentUser")
       .then(function(res) {
         app.arr = res.data[0].majorCustomItemTreeAdapterList;
-        console.log(res);
       });
   }
 };

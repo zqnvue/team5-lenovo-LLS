@@ -15,6 +15,7 @@ import MyClass from '@/components/Teachers/MyClass.vue'
 import StuManger from '@/components/Teachers/StuManger.vue'
 import ClassManger from '@/components/Teachers/ClassManger.vue'
 import MyGood from '@/components/Teachers/MyGood.vue'
+import MyClassList from '@/components/Teachers/MyClassList.vue'
 import VueRouter from 'vue-router'
 
 Vue.use(VueRouter)   //在vue对象中使用router
@@ -54,6 +55,10 @@ const routes=[
         path:'MyGood',   //我教的课程
         component:MyGood,
         name:'MyGood'
+      },{
+        path:'MyClassList',   //我教的课程
+        component:MyClassList,
+        name:'MyClassList'
       }
     ]
   },{

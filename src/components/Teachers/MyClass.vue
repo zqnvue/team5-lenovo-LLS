@@ -32,9 +32,18 @@ export default {
     methods:{   //当前组件用到的函数
         
     },
+    watch:{
+        '$route' (to,from) {
+            var app = this;
+            this.$http.get(`/product/majorCustomCourse/getListByItemId/${this.$route.params.id}`).then(function(res){
+            app.classList = res.data;
+            })
+        }
+    },
     created(){  //组件加载完之后的生命周期函数，如果页面一加载就需要展示数据，那么数据在这获取
         var id = this.$route.params.id;
         var app = this;
+        console.log(id)
         app.$http.get(`/product/majorCustomCourse/getListByItemId/${id}`).then(function(res){
             app.classList = res.data;
         })
