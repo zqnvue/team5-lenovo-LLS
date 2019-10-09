@@ -12,12 +12,30 @@
             <el-menu-item index="1">我的专业</el-menu-item>
             <el-submenu index="2">
               <template slot="title">我的课程</template>
+<<<<<<< HEAD
+<<<<<<< HEAD
+<<<<<<< HEAD
+              <el-submenu :index="'2-'+xiabiao" v-for="(item,xiabiao) in arr" :key="xiabiao">
+                <template slot="title">{{item.name}}</template>
+                <el-menu-item index="2-1-1" v-for="(items,index) in item.childList" :key="index">
+=======
+=======
+>>>>>>> 12989a8ea03a3cdb977150a42d3d5bad7338007e
+=======
+>>>>>>> zm
               <!-- (item,xiabiao) in arr 循环遍历arr中的每一项 xiabiao是唯一标识 -->
               <el-submenu :index="'2-'+xiabiao" v-for="(item,xiabiao) in arr" :key="xiabiao">
                 <!-- 第xxx学期 -->
                 <template slot="title">{{item.name}}</template>
                 <el-menu-item index="2-1-1" v-for="(items,index) in item.childList" :key="index">
                   <!-- 课程名 -->
+<<<<<<< HEAD
+<<<<<<< HEAD
+>>>>>>> 12989a8ea03a3cdb977150a42d3d5bad7338007e
+=======
+>>>>>>> 12989a8ea03a3cdb977150a42d3d5bad7338007e
+=======
+>>>>>>> zm
                   <a href="#">{{items.name}}</a>
                 </el-menu-item>
                 
@@ -49,7 +67,18 @@ export default {
   data() {
     return {
       activeIndex: "2",
+<<<<<<< HEAD
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
       // 用空数组，动态接收数据
+>>>>>>> 12989a8ea03a3cdb977150a42d3d5bad7338007e
+=======
+      // 用空数组，动态接收数据
+>>>>>>> 12989a8ea03a3cdb977150a42d3d5bad7338007e
+=======
+      // 用空数组，动态接收数据
+>>>>>>> zm
       arr:[]
     };
   },
@@ -72,7 +101,18 @@ export default {
      //组件加载完之后的生命周期函数，如果页面一加载就需要展示数据，那么数据在这获取
     var app = this;
     this.$http.get('/product/majorCustom/getMajorCustomForCurrentUser').then(function(res){
+<<<<<<< HEAD
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
         // 把获取到的数据 放到arr中
+>>>>>>> 12989a8ea03a3cdb977150a42d3d5bad7338007e
+=======
+        // 把获取到的数据 放到arr中
+>>>>>>> 12989a8ea03a3cdb977150a42d3d5bad7338007e
+=======
+        // 把获取到的数据 放到arr中
+>>>>>>> zm
         app.arr = res.data[0].majorCustomItemTreeAdapterList;
     })
   }
