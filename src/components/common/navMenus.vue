@@ -46,6 +46,7 @@ export default {
   data() {
     return {
       activeIndex: "1",
+      // 用空数组，动态接收数据
       arr:[]
     };
   },
@@ -80,6 +81,7 @@ export default {
      //组件加载完之后的生命周期函数，如果页面一加载就需要展示数据，那么数据在这获取
     var app = this;
     this.$http.get('/product/userMajorCustom/getTeacherMajorCustomAdapterList').then(function(res){
+        // 把获取到的数据 放到arr中
         app.arr = res.data[0].majorCustomItemTreeAdapterList;
     })
   }
