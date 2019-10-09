@@ -83,6 +83,7 @@ export default {
     this.$http.get('/product/userMajorCustom/getTeacherMajorCustomAdapterList').then(function(res){
         // 把获取到的数据 放到arr中
         app.arr = res.data[0].majorCustomItemTreeAdapterList;
+        console.log(app.arr);
     })
   }
 };

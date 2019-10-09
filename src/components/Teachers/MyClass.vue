@@ -1,16 +1,23 @@
 <template>
     <div id="">
         <div id="classBg">
+            <!-- 专业课名称 -->
             <p>{{this.$route.params.name}}</p>
         </div>
         <div id="c-title">
             <p>专业介绍</p>
         </div>
         <div id="ke" v-for="(item,index) in classList" :key="index">
-            <ul>
-                <li id="one">{{item.name}}</li>
-                <li v-for="(ke,index) in keArr" :key="index">{{ke.name}}</li>
-            </ul>
+            <p id="one">
+                <!-- 第几课时 -->
+                <span id="one"><a href="" @click.prevent="myClass(item.id,item.name,)">{{item.name}}</a></span>
+            </p>
+            <p id="two">
+                <!-- 5个小节 -->
+                <span v-for="(ke,index) in keArr" :key="index">
+                    <a href="" @click.prevent="myClassList(ke.id)">{{ke.name}}</a>
+                </span>
+            </p>
         </div>
     </div>
 </template>
@@ -21,16 +28,31 @@ export default {
         return{ //当前组件用到的数据
             classList:'',
             arr:'',
-            keArr:[{index:1,name:'企业问答'},
-                {index:2,name:'课堂案例'},
-                {index:3,name:'联系手册'},
-                {index:4,name:'精品课件'},
-                {index:5,name:'教学视频'}
-            ]
+            keArr:'',
+            majorId: majorId
         }
     },
-    methods:{   //当前组件用到的函数
-        
+    methods:{ 
+        // 第几课时的id，name
+        myClass(majorId,classId,className){
+            this.$router.push({
+                name: 'MyClassList',
+                params: {
+                    majorId: majorId,
+                    classId : classId,
+                    className : className
+                }
+            })
+        },  //当前组件用到的函数
+        // 小节的id，name
+        myClassList(keId){
+            this.$router.push({
+                name: 'MyClassList',
+                params: {
+                    id : keId,
+                }
+            })
+        }
     },
     watch:{
         '$route' (to,from) {
@@ -41,11 +63,14 @@ export default {
         }
     },
     created(){  //组件加载完之后的生命周期函数，如果页面一加载就需要展示数据，那么数据在这获取
-        var id = this.$route.params.id;
+        // 专业名称  id
+        var majorId = this.$route.params.id;
         var app = this;
-        console.log(id)
         app.$http.get(`/product/majorCustomCourse/getListByItemId/${id}`).then(function(res){
             app.classList = res.data;
+            app.$http.get(`/product/materialType/listForAble`).then(function(res){
+                app.keArr = res.data
+            })
         })
     }
 }
@@ -72,22 +97,22 @@ export default {
         line-height: 144px;
     }
     #ke {
-        margin: 5px 0px 0px 125px;
-        font-size: 13px;
-        width: 80%;
-    }
-    #ke ul {
         overflow: hidden;
+        margin: 5px 0px 0px 125px;
+        width: 80%;
+        height: 30px;
+        line-height: 30px;
         background: rgb(231, 231, 231);
-        height: 26px;
-        line-height: 26px;
     }
-    #ke ul li {
-        float: right;
-        margin: 0px 10px 0px 0px;
-        margin-left: 15px;
-    }
-    #ke ul #one {
+    #one {
         float: left;
+        margin: 0 0 0 10px;
+    }
+    #two {
+        float: right;
+        margin: 0 10px 0 0;
+    }
+    #two span{
+        margin-right: 15px;
     }
 </style>
