@@ -17,6 +17,7 @@
     </div>
 
 <<<<<<< HEAD
+<<<<<<< HEAD
     <div id="c-body" v-for="(item,index) in arr" :key="index" :title="item.name" :name="index">
       <el-card class="box-card" >
         <div slot="header" class="clearfix">
@@ -31,6 +32,20 @@
             </div>
       </div>-->
     </div>
+=======
+    <!-- arr学期名  item.childList每个学期的课程名 -->
+    <div id="c-body" v-for="(item,index) in arr" :key="index" :title="item.name" :name="index">
+      <el-card class="box-card" >
+        <div slot="header" class="clearfix">
+          <!-- item表示arr数组里的每一项 第xxx学期-->
+          <span>{{item.name}}</span>
+        </div>
+        <!-- items表示item.childList数组中的每一项 xxx课程-->
+        <div v-for="(items,index) in item.childList" :key="index">{{items.name}}</div>
+      </el-card>
+    </div>
+    
+>>>>>>> 12989a8ea03a3cdb977150a42d3d5bad7338007e
 =======
     <!-- arr学期名  item.childList每个学期的课程名 -->
     <div id="c-body" v-for="(item,index) in arr" :key="index" :title="item.name" :name="index">
@@ -148,9 +163,12 @@ export default {
     clear: both
   }
 <<<<<<< HEAD
+<<<<<<< HEAD
   .el-card{
     float: left
   }
+=======
+>>>>>>> 12989a8ea03a3cdb977150a42d3d5bad7338007e
 =======
 >>>>>>> 12989a8ea03a3cdb977150a42d3d5bad7338007e
   .el-card__header{
@@ -161,6 +179,12 @@ export default {
     height:280px;
   }
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+  .el-card{
+    float: left;
+  }
+>>>>>>> 12989a8ea03a3cdb977150a42d3d5bad7338007e
 =======
   .el-card{
     float: left;
