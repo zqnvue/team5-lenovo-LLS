@@ -10,12 +10,12 @@
         <div id="ke" v-for="(item,index) in classList" :key="index">
             <p id="one">
                 <!-- 第几课时 -->
-                <span id="one"><a href="" @click.prevent="myClass(item.id,item.name,)">{{item.name}}</a></span>
+                <span id="one"><a href=""  @click.prevent="myClass(item.id,item.name)">{{item.name}}</a></span>
             </p>
             <p id="two">
                 <!-- 5个小节 -->
                 <span v-for="(ke,index) in keArr" :key="index">
-                    <a href="" @click.prevent="myClassList(ke.id)">{{ke.name}}</a>
+                    <a href="">{{ke.name}}</a>
                 </span>
             </p>
         </div>
@@ -28,28 +28,17 @@ export default {
         return{ //当前组件用到的数据
             classList:'',
             arr:'',
-            keArr:'',
-            majorId: majorId
+            keArr:''
         }
     },
     methods:{ 
         // 第几课时的id，name
-        myClass(majorId,classId,className){
+        myClass(itemId,itemName){
             this.$router.push({
                 name: 'MyClassList',
                 params: {
-                    majorId: majorId,
-                    classId : classId,
-                    className : className
-                }
-            })
-        },  //当前组件用到的函数
-        // 小节的id，name
-        myClassList(keId){
-            this.$router.push({
-                name: 'MyClassList',
-                params: {
-                    id : keId,
+                    id: itemId,
+                    name: itemName
                 }
             })
         }
@@ -63,8 +52,7 @@ export default {
         }
     },
     created(){  //组件加载完之后的生命周期函数，如果页面一加载就需要展示数据，那么数据在这获取
-        // 专业名称  id
-        var majorId = this.$route.params.id;
+        var id = this.$route.params.id;
         var app = this;
         app.$http.get(`/product/majorCustomCourse/getListByItemId/${id}`).then(function(res){
             app.classList = res.data;

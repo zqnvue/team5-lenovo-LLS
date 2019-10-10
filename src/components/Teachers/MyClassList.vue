@@ -4,7 +4,7 @@
             <p>{{this.$route.params.name}}</p>
         </div>
         <div id="classBox">
-            <el-tabs :tab-position="tabPosition" style="height: 200px;">
+            <el-tabs :tab-position="tabPosition" @tab-click="handleClick" style="height: 200px;">
                 <el-tab-pane :label="item.name" v-for="(item,index) in keArr" :key="index">{{item.id}}</el-tab-pane>
             </el-tabs>
         </div>
@@ -20,23 +20,30 @@ export default {
         }
     },
     methods:{   //当前组件用到的函数
-        
+        // tab(index,fileWebUrl){
+        //     this.curId = index;
+        //     console.log(fileWebUrl);
+        // },
+        handleClick(tab,event){
+            this.getMyclassEdtails(this.$route.params.id,tab.name - 0,tab.label);
+        },
+        getMyclassEdtails(keId,id,name){
+            console.log('ffff')
+            // var app = this;
+            // this.$http.get(`/product/customMaterial/getListByCourseIdAndTypeId/${keId}/${typeId?typeId:1}`).then(function(res){
+
+            // })
+        }
     },
     created(){  //组件加载完之后的生命周期函数，如果页面一加载就需要展示数据，那么数据在这获取
-        var keId = this.$route.params.id;
-        var majorId = this.$route.params.majorId;
-
-        var className = this.$route.params.className;
-        var classId = this.$route.params.classId;        
-        console.log(keId +'2')
-        console.log(className)
-        console.log(classId)
-        console.log(majorId)
+        // 课时的id
+        var keId = this.$route.params.id;        
+        console.log(keId)
         var app = this;
         this.$http.get(`/product/materialType/listForAble`).then(function(res){
             app.keArr = res.data;
-            app.$http.post(`/product/customMaterial/listForCourseIdAndTypeId?courseId=${this.$route.params.id}&typeId=${item.id}`).then(function(res){
-                console.log(res);
+                app.$http.get(`/product/customMaterial/getListByCourseIdAndTypeId/${keId}/1`).then(function(res){
+                    console.log(res);
             })
         })
     }

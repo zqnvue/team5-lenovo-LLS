@@ -67,7 +67,6 @@ export default {
       }
     },
     toMyClassList(itemId,name){
-      console.log('a')
       this.$router.push({
         name: 'MyClass',
         params: {
@@ -82,8 +81,7 @@ export default {
     var app = this;
     this.$http.get('/product/userMajorCustom/getTeacherMajorCustomAdapterList').then(function(res){
         // 把获取到的数据 放到arr中
-        app.arr = res.data[0].majorCustomItemTreeAdapterList;
-        console.log(app.arr);
+        app.arr = res.data[1].majorCustomItemTreeAdapterList;
     })
   }
 };
