@@ -5,7 +5,9 @@
         </div>
         <div id="classBox">
             <el-tabs :tab-position="tabPosition" @tab-click="handleClick" style="height: 200px;">
-                <el-tab-pane :label="item.name" v-for="(item,index) in keArr" :key="index">{{item.id}}</el-tab-pane>
+                <el-tab-pane :label="item.name" v-for="(item,index) in keArr" :key="index">
+                    <p v-for="(itema,index) in xiaoj" :key="index">{{itema}}</p>
+                </el-tab-pane>
             </el-tabs>
         </div>
     </div>
@@ -16,7 +18,8 @@ export default {
     data(){
         return{ //当前组件用到的数据
             tabPosition: 'left',
-            keArr: ''
+            keArr: '',
+            xiaoj:''
         }
     },
     methods:{   //当前组件用到的函数
@@ -27,18 +30,23 @@ export default {
         handleClick(tab,event){
             this.getMyclassEdtails(this.$route.params.id,tab.name - 0,tab.label);
         },
-        getMyclassEdtails(keId,id,name){
-            console.log('ffff')
-            // var app = this;
-            // this.$http.get(`/product/customMaterial/getListByCourseIdAndTypeId/${keId}/${typeId?typeId:1}`).then(function(res){
-
-            // })
+        getMyclassEdtails(keId,typeId,name){
+            var app = this;
+            this.$http.get(`/product/customMaterial/getListByCourseIdAndTypeId/${keId}/${typeId?typeId:1}`).then(function(res){
+                app.xiaoj = res.data;
+                // if(typeId == 2){
+                //     this.$http.get(`/product/customMaterial/getListByCourseIdAndTypeId/${keId}/2`).then(function(res){
+                //         console.log('fff');
+                //          app.xiaoj = res.data;
+                //     })
+                // }
+            })
         }
     },
     created(){  //组件加载完之后的生命周期函数，如果页面一加载就需要展示数据，那么数据在这获取
         // 课时的id
-        var keId = this.$route.params.id;        
-        console.log(keId)
+        
+        var keId = this.$route.params.id;
         var app = this;
         this.$http.get(`/product/materialType/listForAble`).then(function(res){
             app.keArr = res.data;
