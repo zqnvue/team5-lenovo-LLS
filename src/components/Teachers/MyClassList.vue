@@ -28,18 +28,13 @@ export default {
         //     console.log(fileWebUrl);
         // },
         handleClick(tab,event){
-            this.getMyclassEdtails(this.$route.params.id,tab.name - 0,tab.label);
+            this.getMyclassEdtails(this.$route.params.id,tab.index,tab.label);
         },
         getMyclassEdtails(keId,typeId,name){
             var app = this;
-            this.$http.get(`/product/customMaterial/getListByCourseIdAndTypeId/${keId}/${typeId?typeId:1}`).then(function(res){
+            this.$http.get(`/product/customMaterial/getListByCourseIdAndTypeId/${keId}/${parseInt(typeId)+1}`).then(function(res){
                 app.xiaoj = res.data;
-                // if(typeId == 2){
-                //     this.$http.get(`/product/customMaterial/getListByCourseIdAndTypeId/${keId}/2`).then(function(res){
-                //         console.log('fff');
-                //          app.xiaoj = res.data;
-                //     })
-                // }
+                console.log(res.data.path)
             })
         }
     },
@@ -51,7 +46,7 @@ export default {
         this.$http.get(`/product/materialType/listForAble`).then(function(res){
             app.keArr = res.data;
                 app.$http.get(`/product/customMaterial/getListByCourseIdAndTypeId/${keId}/1`).then(function(res){
-                    console.log(res);
+                    app.xiaoj = res.data
             })
         })
     }
