@@ -6,7 +6,9 @@
         <div id="classBox">
             <el-tabs :tab-position="tabPosition" @tab-click="handleClick" style="height: 200px;">
                 <el-tab-pane :label="item.name" v-for="(item,index) in keArr" :key="index">
-                    <p v-for="(itema,index) in xiaoj" :key="index">{{itema}}</p>
+                    <p v-for="(itema,index) in xiaoj" :key="index">
+                        {{itema}}
+                    </p>
                 </el-tab-pane>
             </el-tabs>
         </div>
@@ -19,29 +21,25 @@ export default {
         return{ //当前组件用到的数据
             tabPosition: 'left',
             keArr: '',
-            xiaoj:''
+            xiaoj:'',
         }
     },
     methods:{   //当前组件用到的函数
-        // tab(index,fileWebUrl){
-        //     this.curId = index;
-        //     console.log(fileWebUrl);
-        // },
         handleClick(tab,event){
-            this.getMyclassEdtails(this.$route.params.id,tab.index,tab.label);
+            this.getMyclassEdtails(this.$route.params.id,parseInt(tab.index)+1,tab.label);
         },
         getMyclassEdtails(keId,typeId,name){
             var app = this;
-            this.$http.get(`/product/customMaterial/getListByCourseIdAndTypeId/${keId}/${parseInt(typeId)+1}`).then(function(res){
+            this.$http.get(`/product/customMaterial/getListByCourseIdAndTypeId/${keId}/${typeId}`).then(function(res){
                 app.xiaoj = res.data;
-                console.log(res.data.path)
             })
         }
     },
     created(){  //组件加载完之后的生命周期函数，如果页面一加载就需要展示数据，那么数据在这获取
-        // 课时的id
-        
         var keId = this.$route.params.id;
+        // var xjName = this.$route.params.xjName;
+        // this.label = xjName;
+
         var app = this;
         this.$http.get(`/product/materialType/listForAble`).then(function(res){
             app.keArr = res.data;
