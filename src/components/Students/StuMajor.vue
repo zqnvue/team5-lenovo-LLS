@@ -2,7 +2,7 @@
   <div id>
     <div id="navbg">
       <div id="navbg-img">
-        <div id="h-name">WEB前端开发</div>
+        <div id="h-name">大前端001</div>
         <ul id="h-ul">
           <li id="h-ul-one">共5个学期</li>
           <li>16门课程</li>
@@ -23,7 +23,9 @@
           <span>{{item.name}}</span>
         </div>
         <!-- items表示item.childList数组中的每一项 xxx课程-->
-        <div v-for="(items,index) in item.childList" :key="index">{{items.name}}</div>
+        <div v-for="(items,index) in item.childList" :key="index">
+          <a href="" @click.prevent="toMyClassList(items.id,items.name)">{{items.name}}</a>
+        </div>
       </el-card>
     
     </div>
@@ -39,7 +41,17 @@ export default {
       arr: []
     };
   },
-  methods: {},
+  methods: {
+    toMyClassList(itemId,name){
+      this.$router.push({
+        name: 'StuClass',
+        params: {
+          id :itemId,
+          name : name
+        }
+      })
+    }
+  },
   created() {
     //组件加载完之后的生命周期函数，如果页面一加载就需要展示数据，那么数据在这获取
     var app = this;
@@ -58,7 +70,7 @@ export default {
 }
 #navbg-img {
   height: 144px;
-  background: url(../../images/download.png) no-repeat 840px -20px;
+  background: url(../../images/download.png) no-repeat 720px -20px;
   position: relative;
 }
 #h-name {
@@ -66,7 +78,7 @@ export default {
   color: #fff;
   font-size: 25px;
   padding-top: 40px;
-  margin-left: 330px;
+  margin-left: 125px;
 }
 #h-ul li {
   float: left;
@@ -74,7 +86,7 @@ export default {
   color: #fff;
 }
 #h-ul-one {
-  margin-left: 330px;
+  margin-left: 125px;
 }
 /* 头部结束 */
 #c-title {

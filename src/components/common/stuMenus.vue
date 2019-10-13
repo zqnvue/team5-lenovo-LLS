@@ -8,10 +8,16 @@
       </el-col>
       <el-col :span="14">
         <div class="grid-content bg-purple">
-          <el-menu :default-active="activeIndex" class="el-menu-demo" mode="horizontal" @select="handleSelect">
-            <el-menu-item index="1">我的专业</el-menu-item>
+          <el-menu
+            :default-active="activeIndex"
+            class="el-menu-demo"
+            id="el-menu-demo"
+            mode="horizontal"
+            @select="handleSelect"
+          >
+            <el-menu-item index="1" id="el-menu-demo">我的专业</el-menu-item>
             <el-submenu index="2">
-              <template slot="title">我的课程</template>
+              <template slot="title" id="myclass2">我的课程</template>
               <!-- (item,xiabiao) in arr 循环遍历arr中的每一项 xiabiao是唯一标识 -->
               <el-submenu :index="'2-'+xiabiao" v-for="(item,xiabiao) in arr" :key="xiabiao">
                 <!-- 第xxx学期 -->
@@ -20,12 +26,11 @@
                   <!-- 课程名 -->
                   <a href="#">{{items.name}}</a>
                 </el-menu-item>
-                
               </el-submenu>
             </el-submenu>
-            <el-menu-item index="3">我的成长</el-menu-item>
-            <el-menu-item index="4">我的参与</el-menu-item>
-            <el-menu-item index="5">我的考试</el-menu-item>
+            <el-menu-item index="3" id="el-menu-demo">我的成长</el-menu-item>
+            <el-menu-item index="4" id="el-menu-demo">我的参与</el-menu-item>
+            <el-menu-item index="5" id="el-menu-demo">我的考试</el-menu-item>
           </el-menu>
         </div>
       </el-col>
@@ -50,35 +55,44 @@ export default {
     return {
       activeIndex: "2",
       // 用空数组，动态接收数据
-      arr:[]
+      arr: []
     };
   },
   methods: {
     handleSelect(key) {
-            if(key == 1){
-                this.$router.push('/student/StuMajor')
-            }else if(key == 2){
-                this.$router.push('/student/StuClass')
-            }else if(key == 3) {
-                this.$router.push('/student/MyGrow')
-            }else if(key == 4) {
-                this.$router.push('/student/MyJoin')
-            }else {
-                this.$router.push('/student/MyTest')
-            }
-        }
-    },
-    created(){
-     //组件加载完之后的生命周期函数，如果页面一加载就需要展示数据，那么数据在这获取
+      if (key == 1) {
+        this.$router.push("/student/StuMajor");
+      } else if (key == 2) {
+        this.$router.push("/student/StuClass");
+      } else if (key == 3) {
+        this.$router.push("/student/MyGrow");
+      } else if (key == 4) {
+        this.$router.push("/student/MyJoin");
+      } else {
+        this.$router.push("/student/MyTest");
+      }
+    }
+  },
+  created() {
+    //组件加载完之后的生命周期函数，如果页面一加载就需要展示数据，那么数据在这获取
     var app = this;
-    this.$http.get('/product/majorCustom/getMajorCustomForCurrentUser').then(function(res){
+    this.$http
+      .get("/product/majorCustom/getMajorCustomForCurrentUser")
+      .then(function(res) {
         // 把获取到的数据 放到arr中
         app.arr = res.data[0].majorCustomItemTreeAdapterList;
-    })
+      });
   }
 };
 </script>
 <style lang="">
+#el-menu-demo {
+  height: 46px;
+  box-sizing: border-box;
+}
+#myclass2 {
+  line-height: 60px !important;
+}
 a {
   color: #6c6868;
   font-size: 12px;

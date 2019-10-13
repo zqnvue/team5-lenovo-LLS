@@ -15,11 +15,11 @@
       <p>专业章节</p>
     </div>
     <div id="c-main">
-      <el-collapse v-model="activeNames">
+      <el-collapse id="item-head" v-model="activeNames">
         <!-- 下面是遍历学期的标题 -->
-        <el-collapse-item id="item-head" v-for="(item,index) in arr" :key="index" :title="item.name" :name="index">
+        <el-collapse-item id="item-neck" v-for="(item,index) in arr" :key="index" :title="item.name" :name="index">
           <!-- 下面是遍历学期中的课程名 -->
-          <div v-for="(items,index) in item.childList" :key="index">
+          <div id="xueqi" v-for="(items,index) in item.childList" :key="index">
             <a href="" @click.prevent="toMyClassList(items.id,items.name)">{{items.name}}</a>
           </div>
         </el-collapse-item>
@@ -98,5 +98,15 @@ export default {
   background: #49c0e0;
   color: #fff;
   font-size: 18px;
+}
+#item-head {
+    margin-left: 100px;
+    padding-left: 20px;
+    border-left: 2px solid #49c0e0;
+}
+#xueqi {
+  width: 100px;
+  margin: 10px 0 0 20px;
+  border-bottom: 1px solid #ccc;
 }
 </style>
