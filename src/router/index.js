@@ -3,6 +3,7 @@ import Logined from '@/components/common/Login.vue'
 import Shome from '@/components/Students/Home.vue'  //引入学生端的主页面
 import StuMajor from '@/components/Students/StuMajor.vue'
 import StuClass from '@/components/Students/StuClass.vue'
+import StuClassList from '@/components/Students/StuClassList.vue'
 import MyGrow from '@/components/Students/MyGrow.vue'
 import MyJoin from '@/components/Students/MyJoin.vue'
 import MyTest from '@/components/Students/MyTest.vue'
@@ -70,9 +71,13 @@ const routes=[
         component:StuMajor,
         name:'StuMajor'
       },{
-        path:'StuClass',   //我教的课程
+        path:'StuClass/:id',   //我教的课程
         component:StuClass,
         name:'StuClass'
+      },{
+        path:'StuClassList',   //我教的课程
+        component:StuClassList,
+        name:'StuClassList'
       },{
         path:'MyGrow',   //我教的课程
         component:MyGrow,

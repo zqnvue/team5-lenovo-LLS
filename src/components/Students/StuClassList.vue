@@ -16,7 +16,7 @@
 </template>
 <script>
 export default {
-    name:'MyClassList',
+    name:'StuClassList',
     data(){
         return{ //当前组件用到的数据
             tabPosition: 'left',
