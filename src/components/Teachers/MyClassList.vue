@@ -4,8 +4,8 @@
             <p>{{this.$route.params.name}}</p>
         </div>
         <div id="classBox">
-            <el-tabs :tab-position="tabPosition" @tab-click="handleClick" style="height: 200px;">
-                <el-tab-pane :label="item.name" v-for="(item,index) in keArr" :key="index">
+            <el-tabs v-model="activeName" :tab-position="tabPosition" @tab-click="handleClick" style="height: 200px;">
+                <el-tab-pane :label="item.name" :name="item.name" v-for="(item,index) in keArr" :key="index">
                     <p v-for="(itema,index) in xiaoj" :key="index">
                         {{itema}}
                     </p>
@@ -22,13 +22,14 @@ export default {
             tabPosition: 'left',
             keArr: '',
             xiaoj:'',
+            activeName:''
         }
     },
     methods:{   //当前组件用到的函数
         handleClick(tab,event){
             this.getMyclassEdtails(this.$route.params.id,parseInt(tab.index)+1,tab.label);
         },
-        getMyclassEdtails(keId,typeId,name){
+        getMyclassEdtails(keId,typeId){
             var app = this;
             this.$http.get(`/product/customMaterial/getListByCourseIdAndTypeId/${keId}/${typeId}`).then(function(res){
                 app.xiaoj = res.data;
@@ -44,6 +45,8 @@ export default {
                     app.xiaoj = res.data
             })
         })
+        app.activeName = $route.params.xjName
+        getMyclassEdtails(keId,this.$route.params.xjId)
     }
 }
 </script>

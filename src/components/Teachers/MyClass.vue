@@ -14,7 +14,7 @@
             </p>
             <p id="two">
                 <!-- 5个小节 -->
-                <span v-for="(ke,id) in keArr" :key="id" @click.prevent="myXioaj(ke.name)">
+                <span v-for="(ke,id) in keArr" :key="id" @click.prevent="myXioaj(ke.id,ke.name)">
                     <a href="">{{ke.name}}</a>
                 </span>
             </p>
@@ -42,11 +42,12 @@ export default {
                 }
             })
         },
-        myXioaj(xjName){
+        myXioaj(xjId,xjName){
             this.$router.push({
                 name: 'MyClassList',
                 params: {
-                    xjName: xjName
+                    xjName: xjName,
+                    xjId: xjId
                 }
             })
         }
