@@ -24,7 +24,7 @@
                 <template slot="title">{{item.name}}</template>
                 <el-menu-item index="2-1-1" v-for="(items,index) in item.childList" :key="index">
                   <!-- 课程名 -->
-                  <a href="#">{{items.name}}</a>
+                  <a href="#" @click.prevent="toMyClassList(items.id,items.name)">{{items.name}}</a>
                 </el-menu-item>
               </el-submenu>
             </el-submenu>
@@ -68,9 +68,18 @@ export default {
         this.$router.push("/student/MyGrow");
       } else if (key == 4) {
         this.$router.push("/student/MyJoin");
-      } else {
+      } else if (key == 5){
         this.$router.push("/student/MyTest");
       }
+    },
+    toMyClassList(itemId,name){
+      this.$router.push({
+        name: 'StuClass',
+        params: {
+          id :itemId,
+          name : name
+        }
+      })
     }
   },
   created() {

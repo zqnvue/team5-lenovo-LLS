@@ -10,7 +10,7 @@
         <div id="ke" v-for="(item,index) in classList" :key="index">
             <p id="one">
                 <!-- 第几课时 -->
-                <span id="one"><a href=""  @click.prevent="myClass(item.id,item.name)">{{item.name}}</a></span>
+                <span id="one"><a href="" @click.prevent="myClass(item.id,item.name)">{{item.name}}</a></span>
             </p>
             <p id="two">
                 <!-- 5个小节 -->

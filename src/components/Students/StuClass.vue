@@ -35,7 +35,7 @@ export default {
         // 第几课时的id，name
         myClass(itemId,itemName){
             this.$router.push({
-                name: 'stuClassList',
+                name: 'StuClassList',
                 params: {
                     id: itemId,
                     name: itemName
@@ -44,7 +44,7 @@ export default {
         },
         myXioaj(xjName){
             this.$router.push({
-                name: 'stuClassList',
+                name: 'StuClassList',
                 params: {
                     xjName: xjName
                 }

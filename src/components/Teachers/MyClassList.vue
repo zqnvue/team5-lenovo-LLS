@@ -7,7 +7,7 @@
             <el-tabs v-model="activeName" :tab-position="tabPosition" @tab-click="handleClick" style="height: 200px;">
                 <el-tab-pane :label="item.name" :name="item.name" v-for="(item,index) in keArr" :key="index">
                     <p v-for="(itema,index) in xiaoj" :key="index">
-                        {{itema}}
+                        <video src="http://10.12.1.193:8888/customMaterials/2dc18c8e-e01b-4488-b873-65360dbded4e.mp4"></video>
                     </p>
                 </el-tab-pane>
             </el-tabs>
@@ -22,7 +22,8 @@ export default {
             tabPosition: 'left',
             keArr: '',
             xiaoj:'',
-            activeName:''
+            activeName:'',
+            classRadio:''
         }
     },
     methods:{   //当前组件用到的函数
@@ -38,15 +39,17 @@ export default {
     },
     created(){  //组件加载完之后的生命周期函数，如果页面一加载就需要展示数据，那么数据在这获取
         var keId = this.$route.params.id;
+        console.log(keId)
         var app = this;
         this.$http.get(`/product/materialType/listForAble`).then(function(res){
             app.keArr = res.data;
                 app.$http.get(`/product/customMaterial/getListByCourseIdAndTypeId/${keId}/1`).then(function(res){
                     app.xiaoj = res.data
+                    console.log(app.xiaoj[0].fileWebUrl);
             })
         })
-        app.activeName = $route.params.xjName
-        getMyclassEdtails(keId,this.$route.params.xjId)
+        app.activeName = this.$route.params.xjName
+        this.getMyclassEdtails(keId,this.$route.params.xjId)
     }
 }
 </script>
