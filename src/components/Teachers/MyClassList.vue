@@ -94,7 +94,7 @@ export default {
         var app = this;
         this.$http.get(`/product/materialType/listForAble`).then(function(res){
             app.keArr = res.data;
-                app.$http.get(`/product/customMaterial/getListByCourseIdAndTypeId/${courseId}/${typeId ? typeId :1}`).then(function(res){
+                app.$http.get(`/product/customMaterial/getListByCourseIdAndTypeId/${keId}/${typeId ? typeId :1}`).then(function(res){
                     app.xiaoj = res.data
             })
         })
@@ -123,6 +123,15 @@ export default {
         width: 50px;
         height: 50px;
         background: red;
+    }
+    .player {
+        float: left;
+        width: 700px;
+    }
+    .player_list {
+        float: right;
+        width: 200px;
+        margin-right: 50px;
     }
 </style>
 
