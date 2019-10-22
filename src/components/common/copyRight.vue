@@ -76,7 +76,7 @@ export default {
 }
 
 .z-footer2 a:nth-of-type(1) {
-  margin-left: 130px;
+  margin-left: 500px;
 }
 
 .z-footer2 a:hover {
@@ -94,6 +94,7 @@ export default {
   color: #6f7376;
   text-align: center;
   font-size: 12px;
+  margin: 0 auto;
 }
 
 .z-upLogo span {
