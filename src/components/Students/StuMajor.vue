@@ -16,8 +16,9 @@
       <p id="c-title-two">下载课程表</p>
     </div>
 
-    <div id="c-body" v-for="(item,index) in arr" :key="index" :title="item.name" :name="index">
-      <el-card class="box-card" >
+    <!-- arr学期名  item.childList每个学期的课程名 -->
+    <div id="c-body" >
+      <el-card class="box-card" v-for="(item,index) in arr" :key="index" :title="item.name" :name="index">
         <div slot="header" class="clearfix">
           <!-- item表示arr数组里的每一项 第xxx学期-->
           <span>{{item.name}}</span>
@@ -27,8 +28,8 @@
           <a href="" @click.prevent="toMyClassList(items.id,items.name)">{{items.name}}</a>
         </div>
       </el-card>
-    
     </div>
+    
   </div>
 </template>
 <script>
@@ -91,13 +92,14 @@ export default {
 /* 头部结束 */
 #c-title {
   margin-left: 265px;
-  /* height: 22px; */
+  height: 60px;
+  /* background: #ccc; */
 }
 #c-title-one {
-  min-width: 100px;
+  /* min-width: 100px; */
   font-size: 16px;
-  height: 30px;
-  line-height: 30px;
+  /* height: 30px; */
+  /* line-height: 30px; */
   border-left: 4px solid#49c0e0;
   float: left;
 }
@@ -113,23 +115,16 @@ export default {
 }
 /* 中间结束 */
 #c-body{
-    /* width: 870px; */
-    /* height: 800px; */
-    margin-left: 355px;
-    /* background: #ccc; */
-    margin-top: 70px;
+    margin-left: 300px;
     position: relative;
 }
 .text {
     font-size: 14px;
   }
-
   .item {
     margin-bottom: 18px;
   }
-
   .clearfix {
-      
       color: white
   }
   .clearfix:before,
@@ -149,14 +144,5 @@ export default {
   .box-card {
     width: 187px;
     height:280px;
-  }
-  .el-card{
-    float: left;
-  }
-  .el-card{
-    float: left;
-  }
-  .el-card{
-    float: left;
   }
 </style>
