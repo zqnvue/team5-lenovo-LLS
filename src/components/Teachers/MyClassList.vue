@@ -58,11 +58,10 @@ export default {
                 aspectRatio: '16:9', // 将播放器置于流畅模式，并在计算播放器的动态大小时使用该值。值应该代表一个比例 - 用冒号分隔的两个数字（例如"16:9"或"4:3"）
                 fluid: true, // 当true时，Video.js player将拥有流体大小。换句话说，它将按比例缩放以适应其容器。
                 sources: [{
-                    src: 'http://10.12.1.193:8888/customMaterials/2dc18c8e-e01b-4488-b873-65360dbded4e.mp4',  // 路径
+                    // http://10.12.1.193:8888/customMaterials/2dc18c8e-e01b-4488-b873-65360dbded4e.mp4
+                    // http://10.12.1.193:8888/customMaterials/0fce292c-07f5-4056-b659-4194931491d0.mp4
+                    src: '',  // 路径
                     type: 'video/mp4'  // 类型
-                }, {
-                    src: 'http://10.12.1.193:8888/customMaterials/2dc18c8e-e01b-4488-b873-65360dbded4e.mp4',
-                    type: 'video/mp4'
                 }],
                 poster: "../../static/images/test.jpg", //你的封面地址
                 // width: document.documentElement.clientWidth,
@@ -82,14 +81,23 @@ export default {
         },
         getMyclassEdtails(keId,typeId){
             var app = this;
-            this.$http.get(`/product/customMaterial/getListByCourseIdAndTypeId/${keId}/${typeId}`).then(function(res){
+            this.$http.get(`/product/customMaterial/getListByCourseIdAndTypeId/${keId}/${typeId ? typeId :1}`).then(function(res){
                 app.xiaoj = res.data;
-                console.log(res.data);
+                if(typeId == 1){
+                    app.playerOptions.sources[0].src = res.data[0].fileWebUrl
+                }else if (typeId == 2){
+
+                }
             })
+        },
+        changeUrl(index){
+            var app = this;
+            app.playerOptions.sources[0].src = app.xiaoj[`${`index`}`].fileWebUrl
         }
     },
     created(){  //组件加载完之后的生命周期函数，如果页面一加载就需要展示数据，那么数据在这获取
         var keId = this.$route.params.id;
+        var typeId = this.$route.params.xjId;
         console.log(keId)
         var app = this;
         this.$http.get(`/product/materialType/listForAble`).then(function(res){
