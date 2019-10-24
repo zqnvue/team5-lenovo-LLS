@@ -10,7 +10,6 @@
         </ul>
       </div>
     </div>
-
     <div id="c-title">
       <p id="c-title-one">专业介绍</p>
       <p id="c-title-two">下载课程表</p>

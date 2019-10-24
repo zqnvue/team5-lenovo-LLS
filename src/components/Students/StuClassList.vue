@@ -1,14 +1,56 @@
 <template>
   <div id>
-    <div id="classBg">
-      <p>{{this.$route.params.name}}</p>
+    <div id="classbg">
+      <div id="c-name">
+        <p>{{this.$route.params.name}}</p>
+      </div>
     </div>
+
     <div id="classBox">
-      <el-tabs :tab-position="tabPosition" @tab-click="handleClick" style="height: 680px;">
-        <el-tab-pane :label="item.name" v-for="(item,index) in keArr" :key="index">
-          <p v-for="(itema,index) in xiaoj" :key="index">
-            <video-player class="vjs-custom-skin" :options="playerOptions"></video-player>
-          </p>
+      <el-tabs
+        v-model="activeName"
+        :tab-position="tabPosition"
+        @tab-click="handleClick"
+        style="height: 680px;"
+      >
+        <el-tab-pane
+          :label="item.name"
+          :name="item.name"
+          v-for="(item,index) in keArr"
+          :key="index"
+        >
+          <template v-if="activeName == '教学视频'">
+            <template>
+              <div class="player">
+                <video-player
+                  class="video-player vjs-custom-skin"
+                  ref="videoPlayer"
+                  :playsinline="true"
+                  :options="playerOptions"
+                ></video-player>
+              </div>
+              <div class="player_list">
+                <h1>视频列表</h1>
+                <ul v-for="(item,index) in xiaoj" :key="index">
+                  <li>
+                    <a href="#" @click.prevent="changeUrl(index)">
+                      <span class="el-icon-video-play"></span>
+                      {{item.fileName}}
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            </template>
+          </template>
+          <template v-else-if="activeName == '精品课件'">
+            <div class="course_img">
+              <img src="@/images/06denglu.jpg" alt />
+              <!-- <img :src="item.fileWebUrl" alt="图片正在加载"> -->
+            </div>
+          </template>
+          <template v-else>
+            <div>课程文件</div>
+          </template>
         </el-tab-pane>
       </el-tabs>
     </div>
@@ -42,7 +84,7 @@ export default {
         sources: [
           {
             type: "video/mp4",
-            src: "http://10.12.1.193:8888/customMaterials/2dc18c8e-e01b-4488-b873-65360dbded4e.mp4" //你所放置的视频的地址，最好是放在服务器上
+            src: "" //你所放置的视频的地址，最好是放在服务器上
           }
         ],
         poster: "", //你的封面地址（覆盖在视频上面的图片）
@@ -64,24 +106,38 @@ export default {
       var app = this;
       this.$http
         .get(
-          `/product/customMaterial/getListByCourseIdAndTypeId/${keId}/${typeId}`
+          `/product/customMaterial/getListByCourseIdAndTypeId/${keId}/${
+            typeId ? typeId : 1
+          }`
         )
         .then(function(res) {
           app.xiaoj = res.data;
+          if (typeId == 1) {
+            app.playerOptions.sources[0].src = res.data[0].fileWebUrl;
+          } else if (typeId == 2) {
+          }
         });
+    },
+    changeUrl(index) {
+      var app = this;
+      app.playerOptions.sources[0].src = app.xiaoj[`${`index`}`].fileWebUrl;
     }
   },
   created() {
     //组件加载完之后的生命周期函数，如果页面一加载就需要展示数据，那么数据在这获取
     var keId = this.$route.params.id;
+    var typeId = this.$route.params.xjId;
+    console.log(keId);
     var app = this;
     this.$http.get(`/product/materialType/listForAble`).then(function(res) {
-      // console.log(res);
       app.keArr = res.data;
       app.$http
-        .get(`/product/customMaterial/getListByCourseIdAndTypeId/${keId}/1`)
+        .get(
+          `/product/customMaterial/getListByCourseIdAndTypeId/${keId}/${
+            typeId ? typeId : 1
+          }`
+        )
         .then(function(res) {
-          // console.log(res);
           app.xiaoj = res.data;
         });
     });
@@ -91,19 +147,41 @@ export default {
 };
 </script>
 <style>
-#classBg {
+#classbg {
   height: 144px;
   background: #f570c9;
 }
-#classBg p {
+#c-name {
+  min-width: 400px;
   color: #fff;
   font-size: 20px;
+  padding-top: 40px;
   text-align: center;
-  line-height: 144px;
+}
+#c-name p {
+  height: 50px;
+  margin: 0 auto;
+  line-height: 50px;
 }
 #classBox {
   width: 80%;
   border: 1px solid blue;
   margin: 0px auto;
+}
+.video-js .vjs-big-play-button {
+  width: 50px;
+  height: 50px;
+  background: red;
+}
+.player {
+  float: left;
+  width: 650px;
+}
+.player_list {
+  float: right;
+  width: 200px;
+  margin-right: 50px;
+  line-height: 30px;
+  font-size: 15px;
 }
 </style>

@@ -18,7 +18,7 @@
           <!-- 两个按钮被点击后显示的内容框 -->
           <el-dialog title="新增班级" :visible.sync="addClass">
             <el-form :model="form">
-              <el-form-item label="活动名称" :label-width="formLabelWidth">
+              <el-form-item label="班级名称" :label-width="formLabelWidth">
                 <el-input v-model="form.name" autocomplete="off"></el-input>
               </el-form-item>
             </el-form>
@@ -27,13 +27,14 @@
               <el-button type="primary" @click="addClass = false">确 定</el-button>
             </div>
           </el-dialog>
-          <div v-for="(item,index) in classList" :key="index" :index="item.id">
+          
+
           <el-dialog title="新增学生" :visible.sync="addStu">
             <el-form :model="form">
               <el-form-item label="学生班级：" :label-width="formLabelWidth">
                 <!-- form.region选中班级后，框中确定班级 -->
                 <el-select v-model="form.region" placeholder="请选择学生班级">
-                  <el-option :label="item.name" :value="item.name"></el-option>
+                  <el-option v-for="item in classList" :key="item.id" :label="item.name" :value="item.name"></el-option>
                 </el-select>
               </el-form-item>
               <!-- label-width="formLabelWidth"使form表单文字对齐 -->
@@ -55,7 +56,6 @@
               <el-button type="primary" @click="addStu = false">确 定</el-button>
             </div>
           </el-dialog>
-          </div>
         </el-row>
 
       </div>
@@ -70,7 +70,14 @@
           v-for="(item,index) in classList"
           :key="index"
           :index="item.id"
-        >{{ item.userName }}</el-tab-pane>
+        >
+          <el-table :data="stuList" style="width: 100%">
+            <el-table-column  label="姓名" prop="userName"></el-table-column>
+            <el-table-column  label="电话" prop="mobile"></el-table-column>
+            <el-table-column  label="邮箱" prop="email"></el-table-column>
+            <!-- <el-table-column  label="操作"></el-table-column> -->
+          </el-table>
+        </el-tab-pane>
       </el-tabs>
     </div>
   </div>
@@ -82,8 +89,8 @@ export default {
     return {
       //当前组件用到的数据
       tabPosition: "left",
-      classList: "",
-
+      classList: [],
+      stuList: [],
       addStu: false,
       addClass: false,
       form: {
@@ -103,14 +110,13 @@ export default {
     //当前组件用到的函数
     handleClick(tab, event) {
       var classId = tab.$attrs.index;
-      this.$http
+      var app = this;
+      app.$http
         .get(`/business/organDuty/getStudentListByClassId/${classId}`)
-        .then(function(res){
-          console.log(res.data)
+        .then(function(res) {
+          // console.log(res.data);
+          app.stuList = res.data;
         });
-    },
-    addStu(){
-      console.log('11')
     }
   },
   created() {
@@ -120,7 +126,7 @@ export default {
     app.$http
       .get(`/business/organClassUser/allClassListByTeacherId/${userId}`)
       .then(function(res) {
-        console.log(res)
+        // console.log(res)
         app.classList = res.data;
       });
   }

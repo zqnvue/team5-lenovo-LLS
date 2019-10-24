@@ -15,12 +15,10 @@
       <el-card class="box-card" v-for="(item,index) in classList" :key="index">
         <div slot="header" class="clearfix">
           <!-- 第几课时-->
-          <span>
-            <a href="" @click.prevent="myClass(item.id,item.name)">{{item.name}}</a>
-          </span>
+          <span><a href="" @click.prevent="myClass(item.id,item.name)">{{item.name}}</a></span>
         </div>
         <!-- 5个小节-->
-        <div v-for="(ke,id) in keArr" :key="id" @click.prevent="myXioaj(ke.name)">
+        <div v-for="(ke,id) in keArr" :key="id" @click.prevent="myXioaj(item.id,ke.id,ke.name)">
           <a href="">{{ke.name}}</a>
         </div>
       </el-card>
@@ -51,14 +49,16 @@ export default {
         }
       });
     },
-    myXioaj(xjName) {
+    myXioaj(itemId,xjId,xjName){
       this.$router.push({
-        name: "StuClassList",
+        name: 'stuClassList',
         params: {
-          xjName: xjName
+          id: itemId,
+          xjName: xjName,
+          xjId: xjId
         }
-      });
-    }
+    })
+  }
   },
   watch: {
     $route(to, from) {
@@ -69,7 +69,7 @@ export default {
         )
         .then(function(res) {
           app.classList = res.data;
-        });
+        })
     }
   },
   created() {

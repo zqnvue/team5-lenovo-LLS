@@ -18,7 +18,9 @@
                             <div class="player_list">
                                 <h1>视频列表</h1>
                                 <ul v-for="(item,index) in xiaoj" :key="index">
-                                    <li><a href="#" @click.prevent="changeUrl(index)">{{item.fileName}}</a></li>
+                                    <li><a href="#" @click.prevent="changeUrl(index)">
+                                        <span>22</span>
+                                        {{item.fileName}}</a></li>
                                 </ul>
                             </div>
                         </template>

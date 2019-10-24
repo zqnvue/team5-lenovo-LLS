@@ -56,7 +56,7 @@ export default {
         }
     },
     watch:{
-        '$route' (to,from) {
+        $route(to,from) {
             var app = this;
             this.$http.get(`/product/majorCustomCourse/getListByItemId/${this.$route.params.id}`).then(function(res){
             app.classList = res.data;
