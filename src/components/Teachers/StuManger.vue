@@ -16,7 +16,7 @@
 
 
           <!-- 两个按钮被点击后显示的内容框 -->
-          <el-dialog title="新增班级" :visible.sync="addClass">
+          <el-dialog title="新增班级" :visible.sync="addClass" :before-close="handleClose">
             <el-form :model="form">
               <el-form-item label="班级名称" :label-width="formLabelWidth">
                 <el-input v-model="form.name" autocomplete="off"></el-input>
@@ -94,14 +94,12 @@ export default {
       addStu: false,
       addClass: false,
       form: {
-        name: "",
         region: "",
-        date1: "",
-        date2: "",
-        delivery: false,
-        type: [],
-        resource: "",
-        desc: ""
+        value: "",
+        number: "",
+        email: "",
+        idCard: "",
+        // delivery: false
       },
       formLabelWidth: "100px"
     };
@@ -117,7 +115,14 @@ export default {
           // console.log(res.data);
           app.stuList = res.data;
         });
-    }
+    },
+    handleClose(done) {
+        this.$confirm('确认关闭？')
+          .then(_ => {
+            done();
+          })
+          .catch(_ => {});
+      }
   },
   created() {
     //组件加载完之后的生命周期函数，如果页面一加载就需要展示数据，那么数据在这获取

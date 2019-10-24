@@ -7,18 +7,9 @@
     </div>
 
     <div id="classBox">
-      <el-tabs
-        v-model="activeName"
-        :tab-position="tabPosition"
-        @tab-click="handleClick"
-        style="height: 680px;"
-      >
-        <el-tab-pane
-          :label="item.name"
-          :name="item.name"
-          v-for="(item,index) in keArr"
-          :key="index"
-        >
+      <el-tabs v-model="activeName" :tab-position="tabPosition" @tab-click="handleClick" style="height: 450px;" >
+        <el-tab-pane :label="item.name" :name="item.name" v-for="(item,index) in keArr" :key="index">
+
           <template v-if="activeName == '教学视频'">
             <template>
               <div class="player">
@@ -42,15 +33,62 @@
               </div>
             </template>
           </template>
+
           <template v-else-if="activeName == '精品课件'">
             <div class="course_img">
               <img src="@/images/06denglu.jpg" alt />
               <!-- <img :src="item.fileWebUrl" alt="图片正在加载"> -->
             </div>
           </template>
-          <template v-else>
-            <div>课程文件</div>
+
+          <template v-else-if="activeName == '练习手册'">
+            <!-- <div>练习手册</div> -->
+            <template>
+              <el-table :data="xiaoj" height="350" border style="width: 100%">
+                <el-table-column prop="id" label="序号" width="169">
+                </el-table-column>
+                <el-table-column prop="fileName" label="文件名称" width="255">
+                </el-table-column>
+                <el-table-column prop="fileAuthor" label="作者" width="200">
+                </el-table-column>
+                <el-table-column prop="fileUrl" label="文件地址" width="349">
+                </el-table-column>
+              </el-table>
+            </template>
           </template>
+
+          <template v-else-if="activeName == '课堂案例'">
+            <!-- <div>课堂案例</div> -->
+            <template>
+              <el-table :data="xiaoj" height="350" border style="width: 100%">
+                <el-table-column prop="" label="序号" width="169">
+                </el-table-column>
+                <el-table-column prop="" label="文件名称" width="255">
+                </el-table-column>
+                <el-table-column prop="" label="作者" width="200">
+                </el-table-column>
+                <el-table-column prop="" label="文件地址" width="349">
+                </el-table-column>
+              </el-table>
+            </template>
+          </template>
+
+          <template v-else>
+            <!-- <div>企业问答</div> -->
+            <template>
+              <el-table :data="xiaoj" height="350" border style="width: 100%">
+                <el-table-column prop="" label="序号" width="169">
+                </el-table-column>
+                <el-table-column prop="" label="文件名称" width="255">
+                </el-table-column>
+                <el-table-column prop="" label="作者" width="200">
+                </el-table-column>
+                <el-table-column prop="" label="文件地址" width="349">
+                </el-table-column>
+              </el-table>
+            </template>
+          </template>
+
         </el-tab-pane>
       </el-tabs>
     </div>
@@ -120,7 +158,7 @@ export default {
     },
     changeUrl(index) {
       var app = this;
-      app.playerOptions.sources[0].src = app.xiaoj[`${`index`}`].fileWebUrl;
+      app.playerOptions.sources[0].src = app.xiaoj[`${index}`].fileWebUrl;
     }
   },
   created() {
@@ -166,7 +204,7 @@ export default {
 #classBox {
   width: 80%;
   border: 1px solid blue;
-  margin: 0px auto;
+  margin: 20px auto;
 }
 .video-js .vjs-big-play-button {
   width: 50px;
@@ -183,5 +221,8 @@ export default {
   margin-right: 50px;
   line-height: 30px;
   font-size: 15px;
+}
+.course_img img{
+  width: 700px;
 }
 </style>

@@ -1,45 +1,94 @@
 <template>
-    <div id="">
-        <div id="classBg">
-            <p>{{this.$route.params.name}}</p>
-        </div>
-        <div id="classBox">
-            <el-tabs v-model="activeName" :tab-position="tabPosition" @tab-click="handleClick" style="height: 680px;">
-                <el-tab-pane :label="item.name" :name="item.name" v-for="(item,index) in keArr" :key="index">
-                     <template v-if="activeName == '教学视频'">
-                        <template>
-                            <div class="player">
-                                <video-player  class="video-player vjs-custom-skin"
-                                    ref="videoPlayer"
-                                    :playsinline="true"
-                                    :options="playerOptions"
-                                ></video-player>
-                            </div>
-                            <div class="player_list">
-                                <h1>视频列表</h1>
-                                <ul v-for="(item,index) in xiaoj" :key="index">
-                                    <li><a href="#" @click.prevent="changeUrl(index)">
-                                        <span>22</span>
-                                        {{item.fileName}}</a></li>
-                                </ul>
-                            </div>
-                        </template>
-                    </template>
-                    <template v-else-if="activeName == '精品课件'">
-                        <div class="course_img">
-                            <img src="@/images/06denglu.jpg" alt="">
-                            <!-- <img :src="item.fileWebUrl" alt="图片正在加载"> -->
-                        </div>
-                    </template>
-                    <template v-else>
-                        <div>
-                            课程文件
-                        </div>
-                    </template>
-                </el-tab-pane>
-            </el-tabs>
-        </div>
+  <div id>
+    <div id="classbg">
+      <div id="c-name">
+        <p>{{this.$route.params.name}}</p>
+      </div>
     </div>
+
+    <div id="classBox">
+      <el-tabs
+        v-model="activeName"
+        :tab-position="tabPosition"
+        @tab-click="handleClick"
+        style="height: 450px;"
+      >
+        <el-tab-pane
+          :label="item.name"
+          :name="item.name"
+          v-for="(item,index) in keArr"
+          :key="index"
+        >
+          <template v-if="activeName == '教学视频'">
+            <template>
+              <div class="player">
+                <video-player
+                  class="video-player vjs-custom-skin"
+                  ref="videoPlayer"
+                  :playsinline="true"
+                  :options="playerOptions"
+                ></video-player>
+              </div>
+              <div class="player_list">
+                <h1>视频列表</h1>
+                <ul v-for="(item,index) in xiaoj" :key="index">
+                  <li>
+                    <a href="#" @click.prevent="changeUrl(index)">
+                      <span class="el-icon-video-play"></span>
+                      {{item.fileName}}
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            </template>
+          </template>
+
+          <template v-else-if="activeName == '精品课件'">
+            <div class="course_img">
+              <img src="@/images/06denglu.jpg" alt />
+              <!-- <img :src="item.fileWebUrl" alt="图片正在加载"> -->
+            </div>
+          </template>
+
+          <template v-else-if="activeName == '练习手册'">
+            <!-- <div>练习手册</div> -->
+            <template>
+              <el-table :data="xiaoj" height="350" border style="width: 100%">
+                <el-table-column prop="id" label="序号" width="169"></el-table-column>
+                <el-table-column prop="fileName" label="文件名称" width="255"></el-table-column>
+                <el-table-column prop="fileAuthor" label="作者" width="200"></el-table-column>
+                <el-table-column prop="fileUrl" label="文件地址" width="349"></el-table-column>
+              </el-table>
+            </template>
+          </template>
+
+          <template v-else-if="activeName == '课堂案例'">
+            <!-- <div>课堂案例</div> -->
+            <template>
+              <el-table :data="xiaoj" height="350" border style="width: 100%">
+                <el-table-column prop label="序号" width="169"></el-table-column>
+                <el-table-column prop label="文件名称" width="255"></el-table-column>
+                <el-table-column prop label="作者" width="200"></el-table-column>
+                <el-table-column prop label="文件地址" width="349"></el-table-column>
+              </el-table>
+            </template>
+          </template>
+
+          <template v-else>
+            <!-- <div>企业问答</div> -->
+            <template>
+              <el-table :data="xiaoj" height="350" border style="width: 100%">
+                <el-table-column prop label="序号" width="169"></el-table-column>
+                <el-table-column prop label="文件名称" width="255"></el-table-column>
+                <el-table-column prop label="作者" width="200"></el-table-column>
+                <el-table-column prop label="文件地址" width="349"></el-table-column>
+              </el-table>
+            </template>
+          </template>
+        </el-tab-pane>
+      </el-tabs>
+    </div>
+  </div>
 </template>
 <script>
 export default {
@@ -100,7 +149,6 @@ export default {
     created(){  //组件加载完之后的生命周期函数，如果页面一加载就需要展示数据，那么数据在这获取
         var keId = this.$route.params.id;
         var typeId = this.$route.params.xjId;
-        console.log(keId)
         var app = this;
         this.$http.get(`/product/materialType/listForAble`).then(function(res){
             app.keArr = res.data;
@@ -114,35 +162,46 @@ export default {
 }
 </script>
 <style>
-    #classBg {
-        height: 144px;
-        background: #f570c9;
-    }
-    #classBg p {
-        color: #fff;
-        font-size: 20px;
-        text-align: center;
-        line-height: 144px;
-    }
-    #classBox {
-        width: 80%;
-        border: 1px solid blue;
-        margin: 0px auto;
-    }
-    .video-js .vjs-big-play-button{
-        width: 50px;
-        height: 50px;
-        background: red;
-    }
-    .player {
-        float: left;
-        width: 700px;
-    }
-    .player_list {
-        float: right;
-        width: 200px;
-        margin-right: 50px;
-    }
+#classbg {
+  height: 144px;
+  background: #f570c9;
+}
+#c-name {
+  min-width: 400px;
+  color: #fff;
+  font-size: 20px;
+  padding-top: 40px;
+  text-align: center;
+}
+#c-name p {
+  height: 50px;
+  margin: 0 auto;
+  line-height: 50px;
+}
+#classBox {
+  width: 80%;
+  border: 1px solid blue;
+  margin: 20px auto;
+}
+.video-js .vjs-big-play-button {
+  width: 50px;
+  height: 50px;
+  background: red;
+}
+.player {
+  float: left;
+  width: 650px;
+}
+.player_list {
+  float: right;
+  width: 200px;
+  margin-right: 50px;
+  line-height: 30px;
+  font-size: 15px;
+}
+.course_img img {
+  width: 700px;
+}
 </style>
 
 
