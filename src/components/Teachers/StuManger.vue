@@ -16,15 +16,15 @@
 
 
           <!-- 两个按钮被点击后显示的内容框 -->
-          <el-dialog title="新增班级" :visible.sync="addClass" :before-close="handleClose">
+          <el-dialog title="新增班级" :visible.sync="addClass">
             <el-form :model="form">
               <el-form-item label="班级名称" :label-width="formLabelWidth">
-                <el-input v-model="form.name" autocomplete="off"></el-input>
+                <el-input v-model="form.addClassName"></el-input>
               </el-form-item>
             </el-form>
             <div slot="footer" class="dialog-footer">
               <el-button @click="addClass = false">取 消</el-button>
-              <el-button type="primary" @click="addClass = false">确 定</el-button>
+              <el-button type="primary" @click="toAddClass">确 定</el-button>
             </div>
           </el-dialog>
           
@@ -33,16 +33,16 @@
             <el-form :model="form">
               <el-form-item label="学生班级：" :label-width="formLabelWidth">
                 <!-- form.region选中班级后，框中确定班级 -->
-                <el-select v-model="form.region" placeholder="请选择学生班级">
-                  <el-option v-for="item in classList" :key="item.id" :label="item.name" :value="item.name"></el-option>
+                <el-select v-model="form.classId" placeholder="请选择学生班级">
+                  <el-option v-for="item in addClassList" :key="item.id" :label="item.name" :value="item.id"></el-option>
                 </el-select>
               </el-form-item>
               <!-- label-width="formLabelWidth"使form表单文字对齐 -->
               <el-form-item label="姓名：" :label-width="formLabelWidth">
-                <el-input class="inpWidth" v-model="form.value"></el-input>
+                <el-input class="inpWidth" v-model="form.stuName"></el-input>
               </el-form-item>
               <el-form-item label="电话：" :label-width="formLabelWidth">
-                <el-input class="inpWidth" v-model="form.number"></el-input>
+                <el-input class="inpWidth" v-model="form.mobile"></el-input>
               </el-form-item>
               <el-form-item label="邮箱：" :label-width="formLabelWidth">
                 <el-input class="inpWidth" v-model="form.email"></el-input>
@@ -53,7 +53,7 @@
             </el-form>
             <div slot="footer" class="dialog-footer">
               <el-button @click="addStu = false">取 消</el-button>
-              <el-button type="primary" @click="addStu = false">确 定</el-button>
+              <el-button type="primary" @click="toAddStu">确 定</el-button>
             </div>
           </el-dialog>
         </el-row>
@@ -67,7 +67,7 @@
       >
         <el-tab-pane
           :label="item.name"
-          v-for="(item,index) in classList"
+          v-for="(item,index) in addClassList"
           :key="index"
           :index="item.id"
         >
@@ -89,22 +89,67 @@ export default {
     return {
       //当前组件用到的数据
       tabPosition: "left",
-      classList: [],
+      addClassList: [],
       stuList: [],
       addStu: false,
       addClass: false,
       form: {
-        region: "",
-        value: "",
-        number: "",
+        // 添加班级的班级名称
+        addClassName: "",
+        // 添加学生时选择的班级名称id
+        classId: "",
+        // 学生姓名
+        stuName: "",
+        // 学生电话
+        mobile: "",
+        // 学生邮箱
         email: "",
-        idCard: "",
-        // delivery: false
+        // 学生的身份证
+        sysUserDetail:{
+          birthday:"1999-76-98",
+          idCard:"",
+          national:""
+        }
       },
       formLabelWidth: "100px"
     };
   },
   methods: {
+    // 添加班级的名称
+    toAddClass(){
+      this.addClass = false;
+      var app = this;
+      this.$http.post(`/business/organClass/saveOrUpdateAndGetId`,{
+        schoolId: 2,
+        majorCustomId: 1,
+        name: this.form.addClassName,
+        year: '2000'
+      }).then(function(res){
+        console.log(res.data)
+        app.$http.post(`/business/organClassUser/saveRelationship`,{
+          userId: '2',
+          classId: res.data,
+          startDate: '2000-02-13',
+          userFlag: 'T'
+        }).then(function(res){
+          console.log(res)          
+        })
+      });
+    },
+    // 添加学生的个人信息
+    toAddStu(){
+      this.addStu = false;
+      this.$http.post(`/business/organClassUser/save`,{
+        // 添加的学生姓名
+        userName: this.form.stuName,
+        email: this.form.email,
+        mobile: this.form.mobile,
+        classId: this.form.classId,
+        sysUserDetail: this.form.sysUserDetail
+      }).then(function(res){
+        console.log(res.data)
+      })
+    },
     //当前组件用到的函数
     handleClick(tab, event) {
       var classId = tab.$attrs.index;
@@ -112,17 +157,9 @@ export default {
       app.$http
         .get(`/business/organDuty/getStudentListByClassId/${classId}`)
         .then(function(res) {
-          // console.log(res.data);
           app.stuList = res.data;
         });
-    },
-    handleClose(done) {
-        this.$confirm('确认关闭？')
-          .then(_ => {
-            done();
-          })
-          .catch(_ => {});
-      }
+    }
   },
   created() {
     //组件加载完之后的生命周期函数，如果页面一加载就需要展示数据，那么数据在这获取
@@ -132,7 +169,7 @@ export default {
       .get(`/business/organClassUser/allClassListByTeacherId/${userId}`)
       .then(function(res) {
         // console.log(res)
-        app.classList = res.data;
+        app.addClassList = res.data;
       });
   }
 };
