@@ -71,11 +71,24 @@
           :key="index"
           :index="item.id"
         >
-          <el-table :data="stuList" style="width: 100%">
-            <el-table-column  label="姓名" prop="userName"></el-table-column>
-            <el-table-column  label="电话" prop="mobile"></el-table-column>
-            <el-table-column  label="邮箱" prop="email"></el-table-column>
-            <!-- <el-table-column  label="操作"></el-table-column> -->
+          <el-table v-if="stuList.length != 0" :data="stuList.filter(data => !search || data.userName.toLowerCase().includes(search.toLowerCase()))" style="width: 100%">
+            <el-table-column label="姓名" prop="userName"></el-table-column>
+            <el-table-column label="电话" prop="mobile"></el-table-column>
+            <el-table-column label="邮箱" prop="email"></el-table-column>
+            <el-table-column label="操作">
+              <template slot-scope="scope">
+                <el-button type="text" size="mini">奖励</el-button>
+                <el-button type="text" size="mini">待改进</el-button>
+              </template>
+            </el-table-column>
+            <el-table-column>
+              <template slot="header" slot-scope="scope">
+                <el-input
+                  v-model="search"
+                  size="mini"
+                  placeholder="输入关键字搜索"/>
+              </template>
+            </el-table-column>
           </el-table>
         </el-tab-pane>
       </el-tabs>
@@ -111,7 +124,8 @@ export default {
           national:""
         }
       },
-      formLabelWidth: "100px"
+      formLabelWidth: "100px",
+      search: ""
     };
   },
   methods: {
