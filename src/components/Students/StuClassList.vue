@@ -88,7 +88,6 @@
               </el-table>
             </template>
           </template>
-
         </el-tab-pane>
       </el-tabs>
     </div>
@@ -109,6 +108,7 @@ export default {
       tabPosition: "left",
       keArr: "",
       xiaoj: "",
+      activeName:'教学视频',
       playerOptions: {
         playbackRates: [0.7, 1.0, 1.5, 2.0], //播放速度
         autoplay: false, //如果true,浏览器准备好时开始回放。
@@ -140,7 +140,7 @@ export default {
         tab.label
       );
     },
-    getMyclassEdtails(keId, typeId, name) {
+    getMyclassEdtails(keId, typeId) {
       var app = this;
       this.$http
         .get(
@@ -150,37 +150,33 @@ export default {
         )
         .then(function(res) {
           app.xiaoj = res.data;
-          if (typeId == 1) {
-            app.playerOptions.sources[0].src = res.data[0].fileWebUrl;
-          } else if (typeId == 2) {
-          }
+          if(typeId == 1){
+                    app.playerOptions.sources[0].src = res.data[0].fileWebUrl
+                }else if (typeId == 2){
+                }
         });
     },
-    changeUrl(index) {
-      var app = this;
-      app.playerOptions.sources[0].src = app.xiaoj[`${index}`].fileWebUrl;
-    }
+    changeUrl(index){
+            var app = this;
+            app.playerOptions.sources[0].src = app.xiaoj[`${index}`].fileWebUrl
+        }
   },
   created() {
     //组件加载完之后的生命周期函数，如果页面一加载就需要展示数据，那么数据在这获取
     var keId = this.$route.params.id;
     var typeId = this.$route.params.xjId;
-    console.log(keId);
     var app = this;
     this.$http.get(`/product/materialType/listForAble`).then(function(res) {
       app.keArr = res.data;
       app.$http
         .get(
-          `/product/customMaterial/getListByCourseIdAndTypeId/${keId}/${
-            typeId ? typeId : 1
-          }`
-        )
-        .then(function(res) {
+          `/product/customMaterial/getListByCourseIdAndTypeId/${keId}/${typeId ? typeId : 1}`
+        ).then(function(res) {
           app.xiaoj = res.data;
         });
     });
     app.activeName = this.$route.params.xjName;
-    this.getMyclassEdtails(keId, this.$route.params.xjId);
+    this.getMyclassEdtails(keId, typeId);
   }
 };
 </script>

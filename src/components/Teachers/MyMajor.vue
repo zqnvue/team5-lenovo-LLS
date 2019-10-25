@@ -37,8 +37,7 @@ export default {
   data() {
     return {
       //当前组件用到的数据
-      // activeNames: ['1'],
-      arr:[],
+      arr:[]
     };
   },
   methods: {
@@ -58,7 +57,6 @@ export default {
     var app = this;
     this.$http.get('/product/userMajorCustom/getTeacherMajorCustomAdapterList').then(function(res){
         app.arr = res.data[1].majorCustomItemTreeAdapterList;
-        // console.log(res.data[0].majorCustomItemTreeAdapterList);
     })
   }
 };

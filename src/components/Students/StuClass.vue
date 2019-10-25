@@ -18,7 +18,7 @@
           <span><a href="" @click.prevent="myClass(item.id,item.name)">{{item.name}}</a></span>
         </div>
         <!-- 5个小节-->
-        <div v-for="(ke,id) in keArr" :key="id" @click.prevent="myXioaj(item.id,ke.id,ke.name)">
+        <div v-for="(ke,id) in keArr" :key="id" @click.prevent="myXioaj(item.id,ke.id,item.name,ke.name)">
           <a href="">{{ke.name}}</a>
         </div>
       </el-card>
@@ -45,17 +45,20 @@ export default {
         name: "StuClassList",
         params: {
           id: itemId,
-          name: itemName
+          name: itemName,
+          xjId: 1,
+          xjName: "教学视频"
         }
       });
     },
-    myXioaj(itemId,xjId,xjName){
+    myXioaj(itemId,xjId,itemName,xjName){
       this.$router.push({
-        name: 'stuClassList',
+        name: 'StuClassList',
         params: {
           id: itemId,
-          xjName: xjName,
-          xjId: xjId
+          name: itemName,
+          xjId: xjId,
+          xjName: xjName
         }
     })
   }
