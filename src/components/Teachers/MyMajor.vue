@@ -14,17 +14,21 @@
       <p>专业介绍</p>
       <p>专业章节</p>
     </div>
-    <div id="c-main">
-      <el-collapse id="item-head" v-model="activeNames">
-        <!-- 下面是遍历学期的标题 -->
-        <el-collapse-item id="item-neck" v-for="(item,index) in arr" :key="index" :title="item.name" :name="index">
-          <!-- 下面是遍历学期中的课程名 -->
-          <div id="xueqi" v-for="(items,index) in item.childList" :key="index">
-            <a href="" @click.prevent="toMyClassList(items.id,items.name)">{{items.name}}</a>
-          </div>
-        </el-collapse-item>
-      </el-collapse>
+    
+    <!-- arr学期名  item.childList每个学期的课程名 -->
+    <div id="c-body" >
+      <el-card class="box-card" v-for="(item,index) in arr" :key="index" :title="item.name" :name="index">
+        <div slot="header" class="clearfix">
+          <!-- item表示arr数组里的每一项 第xxx学期-->
+          <span>{{item.name}}</span>
+        </div>
+        <!-- items表示item.childList数组中的每一项 xxx课程-->
+        <div v-for="(items,index) in item.childList" :key="index">
+          <a href="" @click.prevent="toMyClassList(items.id,items.name)">{{items.name}}</a>
+        </div>
+      </el-card>
     </div>
+
   </div>
 </template>
 <script>
@@ -33,7 +37,7 @@ export default {
   data() {
     return {
       //当前组件用到的数据
-      activeNames: ['1'],
+      // activeNames: ['1'],
       arr:[],
     };
   },
@@ -87,8 +91,8 @@ export default {
 #c-title p {
   min-width: 100px;
   font-size: 16px;
-  height: 22px;
-  line-height: 22px;
+  height: 30px;
+  line-height: 30px;
   text-indent: 11px;
   margin: 15px 0 12px 125px;
   position: relative;
@@ -109,4 +113,39 @@ export default {
   margin: 10px 0 0 20px;
   border-bottom: 1px solid #ccc;
 }
+#c-body{
+    margin-left: 300px;
+    position: relative;
+}
+.text {
+    font-size: 14px;
+  }
+  .item {
+    margin-bottom: 18px;
+  }
+  .clearfix {
+      color: white
+  }
+  .clearfix:before,
+  .clearfix:after {
+    display: table;
+    content: "";
+  }
+  .clearfix:after {
+    clear: both
+  }
+  .el-card{
+    float: left
+  }
+  .el-card__header{
+      background: rgb(205,107,1);
+  }
+  .box-card {
+    width: 187px;
+    height:280px;
+  }
+  .box-card a{
+    font-size: 15px;
+    line-height: 30px;
+  }
 </style>

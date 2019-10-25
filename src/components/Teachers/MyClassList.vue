@@ -143,10 +143,11 @@ export default {
         },
         changeUrl(index){
             var app = this;
-            app.playerOptions.sources[0].src = app.xiaoj[`${`index`}`].fileWebUrl
+            app.playerOptions.sources[0].src = app.xiaoj[`${index}`].fileWebUrl
         }
     },
     created(){  //组件加载完之后的生命周期函数，如果页面一加载就需要展示数据，那么数据在这获取
+        // keId是第几课时的id typeId是第几小节的id
         var keId = this.$route.params.id;
         var typeId = this.$route.params.xjId;
         var app = this;
@@ -157,7 +158,7 @@ export default {
             })
         })
         app.activeName = this.$route.params.xjName
-        this.getMyclassEdtails(keId,this.$route.params.xjId)
+        this.getMyclassEdtails(keId,typeId)
     }
 }
 </script>
