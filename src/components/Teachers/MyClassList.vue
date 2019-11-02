@@ -11,7 +11,6 @@
         v-model="activeName"
         :tab-position="tabPosition"
         @tab-click="handleClick"
-        style="height: 450px;"
       >
         <el-tab-pane
           :label="item.name"
@@ -44,10 +43,11 @@
           </template>
 
           <template v-else-if="activeName == '精品课件'">
-            <div class="course_img">
-              <img src="@/images/06denglu.jpg" alt />
-              <!-- <img :src="item.fileWebUrl" alt="图片正在加载"> -->
-            </div>
+            <ul v-for="(item,index) in xiaoj" :key="index">
+              <li class="course_img">
+                <img :src="item.fileWebUrl" alt="图片正在加载" />
+              </li>
+            </ul>
           </template>
 
           <template v-else-if="activeName == '练习手册'">
@@ -85,6 +85,7 @@
               </el-table>
             </template>
           </template>
+          
         </el-tab-pane>
       </el-tabs>
     </div>
@@ -178,6 +179,7 @@ export default {
 }
 #classBox {
   width: 80%;
+  min-height: 450px;
   border: 1px solid blue;
   margin: 20px auto;
 }

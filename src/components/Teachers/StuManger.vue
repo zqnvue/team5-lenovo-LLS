@@ -88,7 +88,7 @@
                 <el-button type="text" @click="jiangli_dialog = true">
                   <span @click="jiangli(scope.row.id)">奖励</span>
                 </el-button>
-                <el-button type="text" @click="jiangli_dialog = true">待改进</el-button>
+                <el-button type="text" @click="daigj_dialog = true"><span @click="jiangli(scope.row.id)">待改进</span></el-button>
               </template>
             </el-table-column>
             <!-- 搜索框 -->
@@ -120,27 +120,29 @@
             </el-col>
           </el-row>
         </el-form-item>
-        <table>
-          <tr>
-            <th>联想9要素</th>
-            <th>奖励细则</th>
-          </tr>
+        <div id="zhuy">奖励共0次，共0分</div>
+        <div class="tableTitle">
+          <div class="titleLeft"><b>联想9要素</b></div>
+          <div class="titleRight"><b>奖励细则</b></div>
+        </div>
+          <table>
           <template v-for="(tr) of filterGood">
             <tr v-for="(item,i) of tr.childList" :key="item.id">
-              <td v-if="i===0" :rowspan="tr.childList.length">{{tr.name}}</td>
-              <td>
-                <div>{{item.name}}</div>
-                <ul>
-                  <li v-for="(li,index1) in item.childList" :key="index1">
-                    <el-checkbox @change="checkChange(li.id,$event)">
+              <!-- tr.name左侧大标题3要求，5要求，1要求 -->
+              <td class="leftTitle" v-if="i===0" :rowspan="tr.childList.length">{{tr.name}}</td>
+              <td class="rightContent">
+                <!-- item.name沟通、主动、认真等等小标题 -->
+                <div class="smallTitle">{{item.name}}</div>
+                <ul class="ulBox">
+                  <li class="liBox" v-for="(li,index1) in item.childList" :key="index1">
+                    <!-- index1+1是序号，li.name是选项的名字 i标签中是奖惩次数-->
+                    <el-checkbox @change="checkChange(li.id,$event)" class="lableLeft">
                       ({{index1+1}})
                       {{li.name}}
-                      (
-                      <i
-                        style="color:red;font-weight:200"
-                      >{{li.nineEssentialFactorRecodeCount}}</i>次)
+                      (<i style="color:red;font-weight:200">{{li.nineEssentialFactorRecodeCount}}</i>次)
                     </el-checkbox>
-                    <el-input
+                    <!-- input备注框 -->
+                    <el-input class="lableRight"
                       size="small"
                       placeholder="备注"
                       v-model="inputData[li.id]"
@@ -155,6 +157,59 @@
       </el-form>
     </el-dialog>
     <!-- 待改进的弹出框 -->
+    <el-dialog title="待改进" :visible.sync="daigj_dialog">
+      <el-form ref="form" :model="form_jiangli" label-width="80px">
+        <el-form-item label="评价时间">
+          <el-row>
+            <el-col :span="11">
+              <el-date-picker
+                type="date"
+                placeholder="选择日期"
+                v-model="form_jiangli.date1"
+                style="width: 100%;"
+              ></el-date-picker>
+            </el-col>
+            <el-col :span="5" :offset="8">
+              <el-button type="primary" style="float:left" @click="savejl">保存</el-button>
+            </el-col>
+          </el-row>
+        </el-form-item>
+        <div id="zhuy">惩罚共0次，共0分</div>
+        <div class="tableTitle">
+          <div class="titleLeft"><b>联想9要素</b></div>
+          <div class="titleRight"><b>惩罚细则</b></div>
+        </div>
+          <table>
+          <template v-for="(tr) of filterBad">
+            <tr v-for="(item,i) of tr.childList" :key="item.id">
+              <!-- tr.name左侧大标题3要求，5要求，1要求 -->
+              <td class="leftTitle" v-if="i===0" :rowspan="tr.childList.length">{{tr.name}}</td>
+              <td class="rightContent">
+                <!-- item.name沟通、主动、认真等等小标题 -->
+                <div class="smallTitle">{{item.name}}</div>
+                <ul class="ulBox">
+                  <li class="liBox" v-for="(li,index1) in item.childList" :key="index1">
+                    <!-- index1+1是序号，li.name是选项的名字 i标签中是奖惩次数-->
+                    <el-checkbox @change="checkChange(li.id,$event)" class="lableLeft">
+                      ({{index1+1}})
+                      {{li.name}}
+                      (<i style="color:red;font-weight:200">{{li.nineEssentialFactorRecodeCount}}</i>次)
+                    </el-checkbox>
+                    <!-- input备注框 -->
+                    <el-input class="lableRight"
+                      size="small"
+                      placeholder="备注"
+                      v-model="inputData[li.id]"
+                      @change="checkChange(li.id,$event)"
+                    ></el-input>
+                  </li>
+                </ul>
+              </td>
+            </tr>
+          </template>
+        </table>
+      </el-form>
+    </el-dialog>
   </div>
 </template>
 <script>
@@ -168,14 +223,13 @@ export default {
           return time.getTime() > Date.now();
         }
       },
-      title1: 1,
-      title2: 2,
       studentId: "", //当前学生的id
       nineElementsList: [], //联想9要素
       activeName: "", //默认选中
       inputData: [], //备注的内容
       arr: [],
       jiangli_dialog: false,
+      daigj_dialog: false,
       form_jiangli: {
         date1: ""
       },
@@ -222,41 +276,27 @@ export default {
     }
   },
   methods: {
-    // 保存按钮，发送奖励的点击处理函数
-    savejl() {
-      this.jiangli_dialog = false;
-      this.$http
-        .post("business/nineEssentialFactor/saveFactorRecode", this.arr)
-        .then(function() {
-          console.log("发送成功");
-        });
-      this.arr = [];
-    },
-    // 奖励列表选中单元格发生的事件
-    checkChange(id, event) {
-      if (typeof event == "string") {
-        // ar是选中的每个复选框
-        var ar = {
-          factorId: id,
-          fractionDesc: event,
-          rewardPenaltyTime: 1572364800000,
-          studentId: this.studentId
-        };
-        this.arr.push(ar);
-        console.log(this.arr);
-      }
-    },
-    jiangli(id) {
-      var studentId = id;
+    // 请求班级数据
+    classMessage() {
+      var userId = localStorage.getItem("userId");
       var app = this;
-      this.$http
-        .get(
-          `/business/nineEssentialFactor/getAllListByStudentIdShowTree/${studentId}`
-        )
-        .then(res => {
-          console.log(res.data);
-          app.nineElementsList = res.data; //请求到的联想9要点
-          console.log(app.filterGood);
+      app.$http
+        .get(`/business/organClassUser/allClassListByTeacherId/${userId}`)
+        .then(function(res) {
+          app.addClassList = res.data;
+        });
+    },
+    //班级自带点击函数处理
+    handleClick(tab, event) {
+      this.stuMessage(this.addClassList[tab.index].id);
+    },
+    // 请求班级中学员的信息
+    stuMessage(classId) {
+      var app = this;
+      app.$http
+        .get(`/business/organDuty/getStudentListByClassId/${classId}`)
+        .then(function(res) {
+          app.stuList = res.data;
         });
     },
     // 添加班级的名称
@@ -280,12 +320,13 @@ export default {
               userFlag: "T"
             })
             .then(function(res) {
-              console.log(res);
+              app.classMessage();
             });
         });
     },
     // 添加学生的个人信息
     toAddStu() {
+      var app = this;
       this.addStu = false;
       this.$http
         .post(`/business/organClassUser/save`, {
@@ -297,36 +338,11 @@ export default {
           sysUserDetail: this.form.sysUserDetail
         })
         .then(function(res) {
-          console.log(res.data);
+          app.stuMessage(app.form.classId);
         });
     },
-    // 奖励
-    handleClose(done) {
-      this.$confirm("确认关闭？")
-        .then(_ => {
-          done();
-        })
-        .catch(_ => {});
-    },
-    //当前组件用到的函数
-    handleClick(tab, event) {
-      var classId = tab.$attrs.index;
-      var app = this;
-      app.$http
-        .get(`/business/organDuty/getStudentListByClassId/${classId}`)
-        .then(function(res) {
-          app.stuList = res.data;
-        });
-    },
-    // 奖惩9九要素
-    goodNineElements(studentId, title1) {
-      this.studentId = studentId;
-      console.log(studentId);
-      // if (this.title1 == title1) {
-      //   this.jiangl = true;
-      // } else {
-      //   this.daigj = true;
-      // }
+    // 奖惩9九要素的获取
+    goodNineElements(studentId) {
       var app = this;
       this.$http
         .get(
@@ -335,34 +351,71 @@ export default {
         .then(res => {
           console.log(res.data);
         });
-    }
+    },
+    // 获取到该学生的奖励和待改进数据
+    jiangli(id) {
+      var studentId = id;
+      var app = this;
+      this.$http
+        .get(
+          `/business/nineEssentialFactor/getAllListByStudentIdShowTree/${studentId}`
+        )
+        .then(res => {
+          app.nineElementsList = res.data; //请求到的联想9要点
+        });
+    },
+    // 奖励和待改进框框的X号关闭
+    handleClose(done) {
+      this.$confirm("确认关闭？")
+        .then(_ => {
+          done();
+        })
+        .catch(_ => {});
+    },
+    // 保存按钮，发送奖励的点击处理函数
+    savejl() {
+      this.jiangli_dialog = false;
+      this.daigj_dialog = false;
+      this.$http
+        .post("business/nineEssentialFactor/saveFactorRecode", this.arr)
+        .then(function() {
+          console.log("发送成功");
+        });
+      this.arr = [];
+    },
+    // 奖励列表选中单元格发生的事件
+    checkChange(id, event) {
+      if (typeof event == "string") {
+        // ar是选中的每个复选框
+        var ar = {
+          factorId: id,
+          fractionDesc: event,
+          rewardPenaltyTime: 1572364800000,
+          studentId: this.studentId
+        };
+        this.arr.push(ar);
+        console.log(this.arr);
+      }
+    },
   },
   created() {
     //组件加载完之后的生命周期函数，如果页面一加载就需要展示数据，那么数据在这获取
-    var userId = localStorage.getItem("userId");
-    var app = this;
-    app.$http
-      .get(`/business/organClassUser/allClassListByTeacherId/${userId}`)
-      .then(function(res) {
-        app.addClassList = res.data;
-      });
+    // 请求所有班级的函数
+    this.classMessage();
   }
 };
 </script>
 
 <style>
 /* 布局中的header、footer、aside样式 */
-/* 最大的框框，只起包含作用 */
-.tableBig {
-  overflow: hidden;
-}
 /* 绿色框框的样式 */
 #zhuy {
   background: rgba(9, 247, 88, 0.904);
   color: rgb(9, 145, 15);
-  height: 30px;
-  line-height: 30px;
-  padding-left: 20px;
+  width: 98%;
+  height: 20px;
+  line-height: 20px;
+  padding-left: 13px;
   margin-top: 20px;
 }
 /* 奖励的标题，包含两个需要浮动的子div */
@@ -380,167 +433,36 @@ export default {
   float: right;
 }
 /* 上半部分----行动3要求 */
-.tableTop {
-  background: #f8f8f8f6;
-  height: 380px;
-  overflow: hidden;
-}
-/* 左大标题栏（3要求） */
-.topLeft {
-  float: left;
-  border: 1px solid rgb(141, 139, 139);
-  width: 15%;
-  height: 360px;
-  margin: 20px 0px 20px 18px;
-  box-sizing: border-box;
-  line-height: 360px;
+.leftTitle {
+  border: 1px solid #606266;
+  width: 90px;
   text-align: center;
 }
-/* 右边内容，又分1、2、3个框 */
-.topRight {
-  float: right;
-  border: 1px solid rgb(141, 139, 139);
-  width: 80%;
-  height: 360px;
-  margin: 20px 20px 20px 0px;
-  box-sizing: border-box;
+.rightContent {
+  border: 1px solid #606266;
 }
-.threeBox {
-  height: 33%;
-  border-bottom: 1px solid rgb(141, 139, 139);
-  margin: 1px auto;
-  box-sizing: border-box;
+.smallTitle {
+  float: left;
+  height: 180px;
+  width: 150px;
+  text-align: center;
+  line-height: 180px;
+}
+.ulBox {
   overflow: hidden;
 }
-.threeBox:nth-child(3) {
-  border-bottom: none;
+.liBox {
+  margin: 10px 0px;
 }
-/* 所有的小东西框 */
-.bb1,
-.cc1,
-.dd1,
-.oo1,
-.pp1,
-.qq1,
-.rr1,
-.ss1,
-.aa1 {
-  text-align: center;
-  line-height: 120px;
-  width: 25%;
-  height: 100%;
-  float: left;
-  border-right: 1px solid rgb(141, 139, 139);
-  padding: 10px auto;
-}
-.aa1 {
-  line-height: 50px;
-}
-.bb2,
-.cc2,
-.dd2,
-.oo2,
-.pp2,
-.qq2,
-.rr2,
-.ss2 {
-  width: 36%;
-  height: 100%;
-  padding: 15px 0 0 5px;
-  float: left;
-  border-right: 1px solid rgb(141, 139, 139);
-}
-.aa2 {
-  margin: auto 0;
-  width: 36%;
-  height: 70%;
-  padding: 15px 0 0 5px;
-  float: left;
-  border-right: 1px solid rgb(141, 139, 139);
-}
-.bb3,
-.cc3,
-.dd3,
-.oo3,
-.pp3,
-.qq3,
-.rr3,
-.ss3,
-.aa3 {
-  border-right: none;
-  width: 32%;
-  height: 100%;
-  margin-top: 15px;
-  padding-left: 5px;
-  float: left;
-}
-/* 所有的多选框 */
 .el-checkbox__label {
-  padding: 2px 0 0 0;
-  font-size: 10px;
+  width: 160px;
+  padding-left: 3px;
+  font-size: 12px;
 }
-/* 下半部分---品德5要求 */
-.tableBottom {
-  background: #f8f8f8f6;
-  height: 610px;
-  /* margin-top: 10px; */
-  overflow: hidden;
+.el-input {
+  width: 50%;
 }
-/* 左大标题（5要求） */
-.bottomLeft {
-  float: left;
-  border: 1px solid rgb(141, 139, 139);
-  width: 15%;
-  height: 600px;
-  margin: 10px 0px 20px 18px;
-  box-sizing: border-box;
-  line-height: 600px;
-  text-align: center;
-}
-/* 右边又分5个内容框 */
-.bottomRight {
-  float: right;
-  border: 1px solid rgb(141, 139, 139);
-  width: 80%;
-  height: 600px;
-  margin: 10px 20px 20px 0px;
-  box-sizing: border-box;
-}
-.fiveBox {
-  height: 20%;
-  margin: 0 auto;
-  border-bottom: 1px solid rgb(141, 139, 139);
-  box-sizing: border-box;
-  overflow: hidden;
-}
-.fiveBox:nth-child(5) {
-  border-bottom: none;
-}
-.tableGood {
-  background: #f8f8f8f6;
-  height: 80px;
-  /* margin-top: 10px; */
-  overflow: hidden;
-}
-/* 左边的1标题 */
-.goodLeft {
-  float: left;
-  border: 1px solid rgb(141, 139, 139);
-  width: 15%;
-  height: 50px;
-  margin: 10px 0px 0px 18px;
-  box-sizing: border-box;
-  line-height: 50px;
-  text-align: center;
-}
-.goodRight {
-  float: right;
-  border: 1px solid rgb(141, 139, 139);
-  width: 80%;
-  height: 50px;
-  margin: 10px 20px 0px 0px;
-  box-sizing: border-box;
-}
+
 /* 主体背景图片样式 */
 #navbg {
   height: 144px;
