@@ -32,12 +32,7 @@
               <el-form-item label="学生班级：" :label-width="formLabelWidth">
                 <!-- form.region选中班级后，框中确定班级 -->
                 <el-select v-model="form.classId" placeholder="请选择学生班级">
-                  <el-option
-                    v-for="item in addClassList"
-                    :key="item.id"
-                    :label="item.name"
-                    :value="item.id"
-                  ></el-option>
+                  <el-option v-for="item in addClassList" :key="item.id" :label="item.name" :value="item.id"></el-option>
                 </el-select>
               </el-form-item>
               <!-- label-width="formLabelWidth"使form表单文字对齐 -->
@@ -62,23 +57,9 @@
         </el-row>
       </div>
       <!-- 班级的标签列表 -->
-      <el-tabs
-        :tab-position="tabPosition"
-        style="min-height: 200px;margin-left: 105px;background: #f1f5f4;width: 85%;margin-top: 10px;"
-        @tab-click="handleClick"
-      >
-        <el-tab-pane
-          :label="item.name"
-          v-for="(item,index) in addClassList"
-          :key="index"
-          :index="item.id"
-        >
-          <el-table
-            v-if="stuList.length != 0"
-            :data="stuList.filter(data => !search || data.userName.toLowerCase().includes(search.toLowerCase()))"
-            style="width: 100%"
-            slot-scope="scope"
-          >
+      <el-tabs :tab-position="tabPosition" style="min-height: 200px;margin-left: 105px;background: #f1f5f4;width: 85%;margin-top: 10px;" @tab-click="handleClick">
+        <el-tab-pane :label="item.name" v-for="(item,index) in addClassList" :key="index" :index="item.id">
+          <el-table v-if="stuList.length != 0" :data="stuList.filter(data => !search || data.userName.toLowerCase().includes(search.toLowerCase()))" style="width: 100%" slot-scope="scope">
             <el-table-column label="姓名" prop="userName"></el-table-column>
             <el-table-column label="电话" prop="mobile"></el-table-column>
             <el-table-column label="邮箱" prop="email"></el-table-column>
@@ -96,7 +77,7 @@
             <!-- 搜索框 -->
             <el-table-column>
               <template slot="header" slot-scope="scope">
-                <el-input v-model="search" size="mini" placeholder="输入关键字搜索" />
+                <el-input style="width: 100%" v-model="search" size="mini" placeholder="输入关键字搜索" />
               </template>
             </el-table-column>
           </el-table>
@@ -110,12 +91,7 @@
         <el-form-item label="评价时间">
           <el-row>
             <el-col :span="11">
-              <el-date-picker
-                type="date"
-                placeholder="选择日期"
-                v-model="form_jiangli.date1"
-                style="width: 100%;"
-              ></el-date-picker>
+              <el-date-picker type="date" placeholder="选择日期" v-model="form_jiangli.date1" style="width: 100%;"></el-date-picker>
             </el-col>
             <el-col :span="5" :offset="8">
               <el-button type="primary" style="float:left" @click="savejl">保存</el-button>
@@ -142,20 +118,14 @@
                 <ul class="ulBox">
                   <li class="liBox" v-for="(li,index1) in item.childList" :key="index1">
                     <!-- index1+1是序号，li.name是选项的名字 i标签中是奖惩次数-->
-                    <el-checkbox @change="checkChange(li.id,$event)" class="lableLeft">
+                    <el-checkbox v-model="li.isSelect" class="lableLeft">
                       ({{index1+1}})
                       {{li.name}}
                       (
                       <i style="color:red;font-weight:200">{{li.nineEssentialFactorRecodeCount}}</i>次)
                     </el-checkbox>
                     <!-- input备注框 -->
-                    <el-input
-                      class="lableRight"
-                      size="small"
-                      placeholder="备注"
-                      v-model="inputData[li.id]"
-                      @change="checkChange(li.id,$event)"
-                    ></el-input>
+                    <el-input class="lableRight" size="small" placeholder="备注" v-model="li.inputVal"></el-input>
                   </li>
                 </ul>
               </td>
@@ -170,12 +140,7 @@
         <el-form-item label="评价时间">
           <el-row>
             <el-col :span="11">
-              <el-date-picker
-                type="date"
-                placeholder="选择日期"
-                v-model="form_jiangli.date1"
-                style="width: 100%;"
-              ></el-date-picker>
+              <el-date-picker type="date" placeholder="选择日期" v-model="form_jiangli.date1" style="width: 100%;"></el-date-picker>
             </el-col>
             <el-col :span="5" :offset="8">
               <el-button type="primary" style="float:left" @click="savejl">保存</el-button>
@@ -202,20 +167,13 @@
                 <ul class="ulBox">
                   <li class="liBox" v-for="(li,index1) in item.childList" :key="index1">
                     <!-- index1+1是序号，li.name是选项的名字 i标签中是奖惩次数-->
-                    <el-checkbox @change="checkChange(li.id,true,$event)" class="lableLeft">
+                    <el-checkbox v-model="li.isSelect" class="lableLeft">
                       ({{index1+1}})
                       {{li.name}}
-                      (
-                      <i style="color:red;font-weight:200">{{li.nineEssentialFactorRecodeCount}}</i>次)
+                      (<i style="color:red;font-weight:200">{{li.nineEssentialFactorRecodeCount}}</i>次)
                     </el-checkbox>
                     <!-- input备注框 -->
-                    <el-input
-                      class="lableRight"
-                      size="small"
-                      placeholder="备注"
-                      v-model="inputData[li.id]"
-                      @change="checkChange(li.id,false,$event)"
-                    ></el-input>
+                    <el-input class="lableRight" size="small" placeholder="备注" v-model="li.inputVal"></el-input>
                   </li>
                 </ul>
               </td>
@@ -229,11 +187,11 @@
 <script>
 export default {
   name: "StuManger",
-  data() {
+  data () {
     return {
       checkList: "",
       pickerOptions: {
-        disabledDate(time) {
+        disabledDate (time) {
           return time.getTime() > Date.now();
         }
       },
@@ -278,43 +236,43 @@ export default {
   },
   computed: {
     //过滤奖励数据
-    filterGood() {
-      return this.nineElementsList.filter(function(item) {
+    filterGood () {
+      return this.nineElementsList.filter(function (item) {
         return item.goodOrBad == "G";
       });
     },
-    filterBad() {
-      return this.nineElementsList.filter(function(item) {
+    filterBad () {
+      return this.nineElementsList.filter(function (item) {
         return item.goodOrBad == "B";
       });
     }
   },
   methods: {
     // 请求班级数据
-    classMessage() {
+    classMessage () {
       var userId = localStorage.getItem("userId");
       var app = this;
       app.$http
         .get(`/business/organClassUser/allClassListByTeacherId/${userId}`)
-        .then(function(res) {
+        .then(function (res) {
           app.addClassList = res.data;
         });
     },
     //班级自带点击函数处理
-    handleClick(tab, event) {
+    handleClick (tab, event) {
       this.stuMessage(this.addClassList[tab.index].id);
     },
     // 请求班级中学员的信息
-    stuMessage(classId) {
+    stuMessage (classId) {
       var app = this;
       app.$http
         .get(`/business/organDuty/getStudentListByClassId/${classId}`)
-        .then(function(res) {
+        .then(function (res) {
           app.stuList = res.data;
         });
     },
     // 添加班级的名称
-    toAddClass() {
+    toAddClass () {
       this.addClass = false;
       var app = this;
       this.$http
@@ -324,7 +282,7 @@ export default {
           name: this.form.addClassName,
           year: "2000"
         })
-        .then(function(res) {
+        .then(function (res) {
           console.log(res.data);
           app.$http
             .post(`/business/organClassUser/saveRelationship`, {
@@ -333,13 +291,13 @@ export default {
               startDate: "2000-02-13",
               userFlag: "T"
             })
-            .then(function(res) {
+            .then(function (res) {
               app.classMessage();
             });
         });
     },
     // 添加学生的个人信息
-    toAddStu() {
+    toAddStu () {
       var app = this;
       this.addStu = false;
       this.$http
@@ -351,12 +309,12 @@ export default {
           classId: this.form.classId,
           sysUserDetail: this.form.sysUserDetail
         })
-        .then(function(res) {
+        .then(function (res) {
           app.stuMessage(app.form.classId);
         });
     },
     // 奖惩9九要素的获取
-    goodNineElements(studentId) {
+    goodNineElements (studentId) {
       var app = this;
       this.$http
         .get(
@@ -367,7 +325,7 @@ export default {
         });
     },
     // 获取到该学生的奖励和待改进数据
-    jiangli(id) {
+    jiangli (id) {
       this.studentId = id;
       var app = this;
       this.$http
@@ -375,87 +333,70 @@ export default {
           `/business/nineEssentialFactor/getAllListByStudentIdShowTree/${this.studentId}`
         )
         .then(res => {
-          app.nineElementsList = res.data; //请求到的联想9要点
+          //请求到的联想9要点
+          app.nineElementsList = [...res.data].map(item => {
+            item.childList.map(item2 => {
+              item2.childList.map(item3 => {
+                item3.isSelect = false;
+                item3.inputVal = '';
+                return item3
+              })
+              return item2
+            })
+            return item
+          })
         });
     },
     // 奖励和待改进框框的X号关闭
-    handleClose(done) {
+    handleClose (done) {
       this.$confirm("确认关闭？")
         .then(_ => {
           done();
         })
-        .catch(_ => {});
+        .catch(_ => { });
     },
     // 保存按钮，发送奖励的点击处理函数
-    savejl() {
+    savejl () {
+      if(this.form_jiangli.date1 == '') {
+        this.$message({
+          type:'warning',
+          message: '请选择日期'
+        })
+        return false
+      }
       this.jiangli_dialog = false;
       this.daigj_dialog = false;
+      [...this.nineElementsList].map(item => {
+        item.childList.map(item2 => {
+          item2.childList.map(item3 => {
+            if (item3.isSelect) {
+              this.arr.push({
+                factorId: item3.id,
+                fractionDesc: item3.inputVal,
+                rewardPenaltyTime: new Date(this.form_jiangli.date1).getTime(),
+                studentId: this.studentId
+              })
+            }
+            return item3
+          })
+          return item2
+        })
+        return item
+      })
       this.$http
         .post("business/nineEssentialFactor/saveFactorRecode", this.arr)
-        .then(function() {
-          console.log("发送成功");
+        .then(res => {
+          this.$message({
+            type: 'success',
+            message: '保存成功'
+          })
+          this.arr = [];
+          this.form_jiangli.date1 = '';
         });
-      this.arr = [];
-    },
-    // 奖励列表选中单元格发生的事件
-    checkChange(id,event,$event) {
-      // 在输入内容改变和点击多选按钮时触发  event
-      // if (typeof event == "string") {
-      //   // ar是选中的每个复选框
-      //   var ar = {
-      //     factorId: id,
-      //     fractionDesc: event,
-      //     rewardPenaltyTime: 1572364800000,
-      //     studentId: this.studentId
-      //   };
-      //   this.arr.push(ar);
-      //   console.log(this.arr);
-      // }
-      // event值为布尔类型时候
-      console.log(id)
-      console.log(event)
-      console.log($event)
-      var isSelect,fractionDesc;
-      if(typeof event === 'boolean') {
-        isSelect = event
-      } else {
-        fractionDesc = event
-      }
-      if (this.arr.length > 0) {
-        this.arr.map(item => {
-          if (id === item.factorId) {
-            item = {
-              fractionDesc: fractionDesc,
-              rewardPenaltyTime: 1572364800000,
-              studentId: this.studentId,
-              isSelect:isSelect
-            };
-          } else {
-            // 创建对象 保存到数组中
-            var obj = {
-              factorId: id,
-              fractionDesc: fractionDesc,
-              rewardPenaltyTime: 1572364800000,
-              studentId: this.studentId,
-              isSelect:isSelect
-            };
-            this.arr.push(obj);
-          }
-        });
-      }else {
-        // 创建对象 保存到数组中
-            var obj = {
-              factorId: id,
-              fractionDesc: fractionDesc,
-              rewardPenaltyTime: 1572364800000,
-              studentId: this.studentId,
-              isSelect:isSelect
-            };
-            this.arr.push(obj);
-      }
+      
     }
   },
-  created() {
+  created () {
     //组件加载完之后的生命周期函数，如果页面一加载就需要展示数据，那么数据在这获取
     // 请求所有班级的函数
     this.classMessage();
