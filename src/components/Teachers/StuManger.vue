@@ -88,7 +88,9 @@
                 <el-button type="text" @click="jiangli_dialog = true">
                   <span @click="jiangli(scope.row.id)">奖励</span>
                 </el-button>
-                <el-button type="text" @click="daigj_dialog = true"><span @click="jiangli(scope.row.id)">待改进</span></el-button>
+                <el-button type="text" @click="daigj_dialog = true">
+                  <span @click="jiangli(scope.row.id)">待改进</span>
+                </el-button>
               </template>
             </el-table-column>
             <!-- 搜索框 -->
@@ -122,10 +124,14 @@
         </el-form-item>
         <div id="zhuy">奖励共0次，共0分</div>
         <div class="tableTitle">
-          <div class="titleLeft"><b>联想9要素</b></div>
-          <div class="titleRight"><b>奖励细则</b></div>
+          <div class="titleLeft">
+            <b>联想9要素</b>
+          </div>
+          <div class="titleRight">
+            <b>奖励细则</b>
+          </div>
         </div>
-          <table>
+        <table>
           <template v-for="(tr) of filterGood">
             <tr v-for="(item,i) of tr.childList" :key="item.id">
               <!-- tr.name左侧大标题3要求，5要求，1要求 -->
@@ -139,10 +145,12 @@
                     <el-checkbox @change="checkChange(li.id,$event)" class="lableLeft">
                       ({{index1+1}})
                       {{li.name}}
-                      (<i style="color:red;font-weight:200">{{li.nineEssentialFactorRecodeCount}}</i>次)
+                      (
+                      <i style="color:red;font-weight:200">{{li.nineEssentialFactorRecodeCount}}</i>次)
                     </el-checkbox>
                     <!-- input备注框 -->
-                    <el-input class="lableRight"
+                    <el-input
+                      class="lableRight"
                       size="small"
                       placeholder="备注"
                       v-model="inputData[li.id]"
@@ -176,10 +184,14 @@
         </el-form-item>
         <div id="zhuy">惩罚共0次，共0分</div>
         <div class="tableTitle">
-          <div class="titleLeft"><b>联想9要素</b></div>
-          <div class="titleRight"><b>惩罚细则</b></div>
+          <div class="titleLeft">
+            <b>联想9要素</b>
+          </div>
+          <div class="titleRight">
+            <b>惩罚细则</b>
+          </div>
         </div>
-          <table>
+        <table>
           <template v-for="(tr) of filterBad">
             <tr v-for="(item,i) of tr.childList" :key="item.id">
               <!-- tr.name左侧大标题3要求，5要求，1要求 -->
@@ -190,17 +202,19 @@
                 <ul class="ulBox">
                   <li class="liBox" v-for="(li,index1) in item.childList" :key="index1">
                     <!-- index1+1是序号，li.name是选项的名字 i标签中是奖惩次数-->
-                    <el-checkbox @change="checkChange(li.id,$event)" class="lableLeft">
+                    <el-checkbox @change="checkChange(li.id,true,$event)" class="lableLeft">
                       ({{index1+1}})
                       {{li.name}}
-                      (<i style="color:red;font-weight:200">{{li.nineEssentialFactorRecodeCount}}</i>次)
+                      (
+                      <i style="color:red;font-weight:200">{{li.nineEssentialFactorRecodeCount}}</i>次)
                     </el-checkbox>
                     <!-- input备注框 -->
-                    <el-input class="lableRight"
+                    <el-input
+                      class="lableRight"
                       size="small"
                       placeholder="备注"
                       v-model="inputData[li.id]"
-                      @change="checkChange(li.id,$event)"
+                      @change="checkChange(li.id,false,$event)"
                     ></el-input>
                   </li>
                 </ul>
@@ -354,11 +368,11 @@ export default {
     },
     // 获取到该学生的奖励和待改进数据
     jiangli(id) {
-      var studentId = id;
+      this.studentId = id;
       var app = this;
       this.$http
         .get(
-          `/business/nineEssentialFactor/getAllListByStudentIdShowTree/${studentId}`
+          `/business/nineEssentialFactor/getAllListByStudentIdShowTree/${this.studentId}`
         )
         .then(res => {
           app.nineElementsList = res.data; //请求到的联想9要点
@@ -384,19 +398,62 @@ export default {
       this.arr = [];
     },
     // 奖励列表选中单元格发生的事件
-    checkChange(id, event) {
-      if (typeof event == "string") {
-        // ar是选中的每个复选框
-        var ar = {
-          factorId: id,
-          fractionDesc: event,
-          rewardPenaltyTime: 1572364800000,
-          studentId: this.studentId
-        };
-        this.arr.push(ar);
-        console.log(this.arr);
+    checkChange(id,event,$event) {
+      // 在输入内容改变和点击多选按钮时触发  event
+      // if (typeof event == "string") {
+      //   // ar是选中的每个复选框
+      //   var ar = {
+      //     factorId: id,
+      //     fractionDesc: event,
+      //     rewardPenaltyTime: 1572364800000,
+      //     studentId: this.studentId
+      //   };
+      //   this.arr.push(ar);
+      //   console.log(this.arr);
+      // }
+      // event值为布尔类型时候
+      console.log(id)
+      console.log(event)
+      console.log($event)
+      var isSelect,fractionDesc;
+      if(typeof event === 'boolean') {
+        isSelect = event
+      } else {
+        fractionDesc = event
       }
-    },
+      if (this.arr.length > 0) {
+        this.arr.map(item => {
+          if (id === item.factorId) {
+            item = {
+              fractionDesc: fractionDesc,
+              rewardPenaltyTime: 1572364800000,
+              studentId: this.studentId,
+              isSelect:isSelect
+            };
+          } else {
+            // 创建对象 保存到数组中
+            var obj = {
+              factorId: id,
+              fractionDesc: fractionDesc,
+              rewardPenaltyTime: 1572364800000,
+              studentId: this.studentId,
+              isSelect:isSelect
+            };
+            this.arr.push(obj);
+          }
+        });
+      }else {
+        // 创建对象 保存到数组中
+            var obj = {
+              factorId: id,
+              fractionDesc: fractionDesc,
+              rewardPenaltyTime: 1572364800000,
+              studentId: this.studentId,
+              isSelect:isSelect
+            };
+            this.arr.push(obj);
+      }
+    }
   },
   created() {
     //组件加载完之后的生命周期函数，如果页面一加载就需要展示数据，那么数据在这获取
