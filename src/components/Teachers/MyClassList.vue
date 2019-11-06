@@ -151,6 +151,7 @@ export default {
         var keId = this.$route.params.id;
         var typeId = this.$route.params.xjId;
         var app = this;
+        app.activeName = this.$route.params.xjName
         this.$http.get(`/product/materialType/listForAble`).then(function(res){
             // keArr中是5个小节
             app.keArr = res.data;
@@ -158,7 +159,6 @@ export default {
                     app.xiaoj = res.data
             })
         })
-        app.activeName = this.$route.params.xjName
         this.getMyclassEdtails(keId,typeId)
     }
 }
@@ -183,13 +183,12 @@ export default {
 #classBox {
   width: 80%;
   min-height: 450px;
-  border: 1px solid blue;
+  border: 1px solid rgb(99, 99, 99);
   margin: 20px auto;
 }
 .video-js .vjs-big-play-button {
   width: 50px;
   height: 50px;
-  background: red;
 }
 .player {
   float: left;
