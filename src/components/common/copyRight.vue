@@ -38,12 +38,10 @@ export default {
   margin-top: 30px;
   bottom: 0;
 }
-
 .z-footerWrap {
   width: 600px;
   margin: 0 auto;
 }
-
 .z-footer1 {
   height: 26px;
   line-height: 26px;
@@ -52,20 +50,17 @@ export default {
   margin-bottom: 8px;
   font-size: 16px;
 }
-
 .z-footer1 span {
   color: #6c7177;
   font-weight: 100;
   margin-left: 10px;
 }
-
 .z-footer2 {
   width: 100%;
   height: 25px;
   text-align: center;
   margin-top: 10px;
 }
-
 .z-footer2 a {
   display: block;
   font-size: 14px;
@@ -74,19 +69,15 @@ export default {
   color: #afb0b2;
   float: left;
 }
-
 .z-footer2 a:nth-of-type(1) {
   margin-left: 500px;
 }
-
 .z-footer2 a:hover {
   color: #fff;
 }
-
 .z-footer2 span:hover {
   color: #fff;
 }
-
 .z-jp {
   height: 30px;
   width: 600px;
@@ -96,7 +87,6 @@ export default {
   font-size: 12px;
   margin: 0 auto;
 }
-
 .z-upLogo span {
   display: inline-block;
 }

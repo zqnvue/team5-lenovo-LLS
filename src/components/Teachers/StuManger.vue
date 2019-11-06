@@ -266,7 +266,7 @@ export default {
     stuMessage (classId) {
       var app = this;
       app.$http
-        .get(`/business/organDuty/getStudentListByClassId/${classId}`)
+        .get(`/business/organDuty/getStudentListByClassId/${classId?classId:2}`)
         .then(function (res) {
           app.stuList = res.data;
         });
@@ -277,19 +277,18 @@ export default {
       var app = this;
       this.$http
         .post(`/business/organClass/saveOrUpdateAndGetId`, {
-          schoolId: 2,
-          majorCustomId: 1,
-          name: this.form.addClassName,
-          year: "2000"
+          schoolId: 2,  //学校id，固定值
+          majorCustomId: 1,   //专业id，固定值
+          name: this.form.addClassName, //新增班级名称
+          year: "2000"  //年份，固定值
         })
         .then(function (res) {
-          console.log(res.data);
           app.$http
             .post(`/business/organClassUser/saveRelationship`, {
-              userId: "2",
-              classId: res.data,
-              startDate: "2000-02-13",
-              userFlag: "T"
+              userId: localStorage.getItem("userId"),  //教师id
+              classId: res.data,  //新增班级id
+              startDate: "2000-02-13",  //入班时间，固定值
+              userFlag: "T"   //用户身份，T表示教师
             })
             .then(function (res) {
               app.classMessage();
@@ -400,6 +399,7 @@ export default {
     //组件加载完之后的生命周期函数，如果页面一加载就需要展示数据，那么数据在这获取
     // 请求所有班级的函数
     this.classMessage();
+    this.stuMessage();
   }
 };
 </script>
