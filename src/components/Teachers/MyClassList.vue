@@ -57,7 +57,9 @@
                 <el-table-column prop="id" label="序号" width="169"></el-table-column>
                 <el-table-column prop="fileName" label="文件名称" width="255"></el-table-column>
                 <el-table-column prop="fileAuthor" label="作者" width="200"></el-table-column>
-                <el-table-column prop="fileUrl" label="文件地址" width="349"></el-table-column>
+                <el-table-column label="文件地址" width="349">
+                  <a :href="xiaoj[0].feilWebUrl" style="background: #49c0e0;font-size: 14px;color: #fff;padding: 5px;">下载<i class="el-icon-download"></i></a>
+                </el-table-column>
               </el-table>
             </template>
           </template>
@@ -150,6 +152,7 @@ export default {
         var typeId = this.$route.params.xjId;
         var app = this;
         this.$http.get(`/product/materialType/listForAble`).then(function(res){
+            // keArr中是5个小节
             app.keArr = res.data;
                 app.$http.get(`/product/customMaterial/getListByCourseIdAndTypeId/${keId}/${typeId ? typeId :1}`).then(function(res){
                     app.xiaoj = res.data
