@@ -4,7 +4,7 @@
             <el-header>
                 <stu-menus></stu-menus>
             </el-header>
-            <el-main>
+            <el-main style="min-height:400px">
                 <router-view></router-view>
             </el-main>
             <el-footer>

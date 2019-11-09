@@ -65,7 +65,7 @@
             <el-table-column label="邮箱" prop="email"></el-table-column>
             <el-table-column label="操作">
               <template slot-scope="scope">
-                <!-- 使用插槽语法获取到当前行的id值 -->
+                <!-- slot-scope="scope"---取到当前单元格  scope.$index 直接取到该单元格值 scope.row 直接取到该单元格对象-->
                 <el-button type="text" @click="jiangli_dialog = true">
                   <span @click="jiangli(scope.row.id)">奖励</span>
                 </el-button>
@@ -76,6 +76,7 @@
             </el-table-column>
             <!-- 搜索框 -->
             <el-table-column>
+              <!-- slot-scope="scope"--- 这里取到当前单元格 -->
               <template slot="header" slot-scope="scope">
                 <el-input style="width: 100%" v-model="search" size="mini" placeholder="输入关键字搜索" />
               </template>

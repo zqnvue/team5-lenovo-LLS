@@ -58,7 +58,7 @@
                 <el-table-column prop="fileName" label="文件名称" width="255"></el-table-column>
                 <el-table-column prop="fileAuthor" label="作者" width="200"></el-table-column>
                 <el-table-column label="文件地址" width="349">
-                  <a :href="xiaoj[0].feilWebUrl" style="background: #49c0e0;font-size: 14px;color: #fff;padding: 5px;">下载<i class="el-icon-download"></i></a>
+                  <a :href="feilWebUrl" style="background: #49c0e0;font-size: 14px;color: #fff;padding: 5px;">下载<i class="el-icon-download"></i></a>
                 </el-table-column>
               </el-table>
             </template>
@@ -76,7 +76,7 @@
             </template>
           </template>
 
-          <template v-else>
+          <template v-else-if="activeName == '企业问答'">
             <!-- <div>企业问答</div> -->
             <template>
               <el-table :data="xiaoj" height="350" border style="width: 100%">
@@ -150,6 +150,8 @@ export default {
         // keId是第几课时的id typeId是第几小节的id
         var keId = this.$route.params.id;
         var typeId = this.$route.params.xjId;
+        console.log(typeId);
+        
         var app = this;
         app.activeName = this.$route.params.xjName
         this.$http.get(`/product/materialType/listForAble`).then(function(res){
