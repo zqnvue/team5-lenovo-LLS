@@ -401,6 +401,8 @@ export default {
     // 请求所有班级的函数
     this.classMessage();
     this.stuMessage();
+    var a = document.querySelectorAll('div')
+    console.log(...a)
   }
 };
 </script>

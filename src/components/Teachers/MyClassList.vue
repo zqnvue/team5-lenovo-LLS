@@ -129,7 +129,7 @@ export default {
     },
     methods:{   //当前组件用到的函数
         handleClick(tab,event){
-            this.getMyclassEdtails(this.$route.params.id,parseInt(tab.index)+1,tab.label);
+            this.getMyclassEdtails(this.$route.params.id,parseInt(tab.index)+1);
         },
         getMyclassEdtails(keId,typeId){
             var app = this;
@@ -137,7 +137,6 @@ export default {
                 app.xiaoj = res.data;
                 if(typeId == 1){
                     app.playerOptions.sources[0].src = res.data[0].fileWebUrl
-                }else if (typeId == 2){
                 }
             })
         },
@@ -150,16 +149,11 @@ export default {
         // keId是第几课时的id typeId是第几小节的id
         var keId = this.$route.params.id;
         var typeId = this.$route.params.xjId;
-        console.log(typeId);
-        
         var app = this;
         app.activeName = this.$route.params.xjName
         this.$http.get(`/product/materialType/listForAble`).then(function(res){
             // keArr中是5个小节
             app.keArr = res.data;
-                app.$http.get(`/product/customMaterial/getListByCourseIdAndTypeId/${keId}/${typeId ? typeId :1}`).then(function(res){
-                    app.xiaoj = res.data
-            })
         })
         this.getMyclassEdtails(keId,typeId)
     }
