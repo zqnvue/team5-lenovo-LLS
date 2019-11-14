@@ -38,7 +38,7 @@
         <div>
           <ul>
             <li>
-              <span style="cursor:pointer;color:#A3A3A4;font-size:14px;">张倩男</span>
+              <span style="cursor:pointer;color:#A3A3A4;font-size:14px;">student1</span>
               <span class="ask_title">在线提问</span>
               <span style="cursor:pointer;color:#A3A3A4;font-size:14px;margin-left:15px">退出</span>
             </li>
